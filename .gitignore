@@ -1,1 +1,3 @@
 *.vs
+CrossyRoad/x64/Release/*
+CrossyRoad/CrossyRoad/x64/Release/*
