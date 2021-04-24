@@ -2,6 +2,7 @@
 #include "SDL.h"
 #include "SDL_opengl.h"
 #include "gl/GLU.h"
+#include <assimp/Importer.hpp>
 
 Game::Game(int width, int height) {
 	running = true;
@@ -25,6 +26,11 @@ void Game::GameLoop(float deltaTime) {
             break;
         }
     }
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    gluLookAt(0, 0, 15, 0, 0, 0, 0, 1, 0);
+
 }
 
 bool Game::isRunning()
