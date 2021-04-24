@@ -1,10 +1,12 @@
+#include "Game.h"
 #include "SDL.h"
 #include "SDL_opengl.h"
 #include "gl/GLU.h"
 #include <iostream>
+#include <chrono>
 
 int main(int argv, char** args) {
-    SDL_Window* window = SDL_CreateWindow("colorPolygon",
+    SDL_Window* window = SDL_CreateWindow("Cross Road",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         640, 480, SDL_WINDOW_OPENGL);
     if (window == nullptr) {
@@ -21,6 +23,25 @@ int main(int argv, char** args) {
             << SDL_GetError()
             << std::endl;
     }
+
+    Game *game = new Game();
+
+    auto newTime = std::chrono::system_clock::now();
+    while (game->isRunning()) {
+        auto oldTime = newTime;
+        newTime = std::chrono::system_clock::now();
+        double deltaTime = std::chrono::duration<double, std::milli>(newTime - oldTime).count();
+           
+        game->GameLoop(deltaTime);
+
+        SDL_GL_SwapWindow(window);
+    }
+
+    delete game;
+
+    SDL_GL_DeleteContext(glContext);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
     return 0;
 }
