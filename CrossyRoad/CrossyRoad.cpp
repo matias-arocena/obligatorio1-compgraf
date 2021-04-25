@@ -1,7 +1,8 @@
 #include "Game.h"
+#include <GL/glew.h> 
+#include "gl/GLU.h"
 #include "SDL.h"
 #include "SDL_opengl.h"
-#include "gl/GLU.h"
 #include <iostream>
 #include <chrono>
 
@@ -22,6 +23,12 @@ int main(int argv, char** args) {
         std::cerr << "[GL Context Error]:"
             << SDL_GetError()
             << std::endl;
+    }
+
+    GLenum glewError = glewInit();
+    if (glewError != GLEW_OK)
+    {
+        printf("Error initializing GLEW! %s\n", glewGetErrorString(glewError));
     }
 
     Game *game = new Game();

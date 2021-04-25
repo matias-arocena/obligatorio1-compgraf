@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include "SDL_opengl.h"
 #include "gl/GLU.h"
-#include <assimp/Importer.hpp>
+#include <string>
 
 Game::Game(int width, int height) {
 	running = true;
@@ -11,9 +11,17 @@ Game::Game(int width, int height) {
 	glClearColor(0, 0, 0, 1);
 	gluPerspective(45, width / height, 0.1, 100);
 	glMatrixMode(GL_MODELVIEW);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    gluLookAt(0, 0, 15, 0, 0, 0, 0, 1, 0);
+    
+    Model* model = new Model();
+    model->LoadMesh("../assets/pinchos.3ds");
+    models["cube"] = model;
 }
 
-void Game::GameLoop(float deltaTime) {
+void Game::GameLoop(double deltaTime) {
     SDL_Event event;
     SDL_PollEvent(&event);
 
@@ -30,7 +38,8 @@ void Game::GameLoop(float deltaTime) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     gluLookAt(0, 0, 15, 0, 0, 0, 0, 1, 0);
-
+    
+    models["cube"]->Render();
 }
 
 bool Game::isRunning()
