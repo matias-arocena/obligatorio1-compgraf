@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
-
+#include <math.h>
 
 MeshEntry::MeshEntry()
 {
@@ -36,7 +36,7 @@ void MeshEntry::Init(const std::vector<Vertex>& vertices, const std::vector<unsi
 
 Model::Model()
 {
-    rotation = 0.0;
+    orientation = 0.0;
     onlyWireframe = false;
 }
 
@@ -100,6 +100,8 @@ void Model::InitMesh(unsigned int Index, const aiMesh* paiMesh)
 
 void Model::Render()
 {
+    glRotated(orientation, 0, 1, 0);
+    glPushMatrix();
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
@@ -119,11 +121,17 @@ void Model::Render()
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+    glPopMatrix();
 }
 
-void Model::showOnlyWireframe(bool onlyWireframe)
+void Model::ShowOnlyWireframe(bool onlyWireframe)
 {
     this->onlyWireframe = onlyWireframe;
+}
+
+void Model::Rotate(double value)
+{
+    orientation = fmod(orientation + value, 360);
 }
 
 Vertex::Vertex(const float posX, const float posY, const float posZ, const float normalX, const float normalY, const float normalZ)

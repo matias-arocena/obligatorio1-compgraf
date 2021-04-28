@@ -33,7 +33,7 @@ void Game::GameLoop(double deltaTime) {
         case SDLK_w:
             onlyWireframe = !onlyWireframe;
             for (auto& kv: models) {
-                kv.second->showOnlyWireframe(onlyWireframe);
+                kv.second->ShowOnlyWireframe(onlyWireframe);
             }
             break;
         default:
@@ -45,7 +45,7 @@ void Game::GameLoop(double deltaTime) {
     glLoadIdentity();
     gluLookAt(0, 0, 15, 0, 0, 0, 0, 1, 0);
     
-    
+    models["cube"]->Rotate(.1 * deltaTime);
     models["cube"]->Render();
 }
 
