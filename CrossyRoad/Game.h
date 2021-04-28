@@ -3,7 +3,7 @@
 #include <string>
 #include "Model.h"
 class Game {
-	bool running;
+	bool running, onlyWireframe;
 	std::map<std::string, Model*> models;
 public:
 	Game() :Game(640, 480){};

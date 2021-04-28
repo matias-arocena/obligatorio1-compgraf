@@ -36,6 +36,8 @@ void MeshEntry::Init(const std::vector<Vertex>& vertices, const std::vector<unsi
 
 Model::Model()
 {
+    rotation = 0.0;
+    onlyWireframe = false;
 }
 
 
@@ -108,11 +110,20 @@ void Model::Render()
         
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Entries[i].IndexBuffer);
 
-        glDrawElements(GL_TRIANGLES, m_Entries[i].NumIndices, GL_UNSIGNED_INT, 0);
+        if (onlyWireframe) {
+            glDrawElements(GL_LINES, m_Entries[i].NumIndices, GL_UNSIGNED_INT, 0);
+        } else {
+            glDrawElements(GL_TRIANGLES, m_Entries[i].NumIndices, GL_UNSIGNED_INT, 0);
+        }
     }
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+}
+
+void Model::showOnlyWireframe(bool onlyWireframe)
+{
+    this->onlyWireframe = onlyWireframe;
 }
 
 Vertex::Vertex(const float posX, const float posY, const float posZ, const float normalX, const float normalY, const float normalZ)

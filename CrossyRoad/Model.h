@@ -23,11 +23,12 @@ struct MeshEntry {
 
 class Model
 {
+    bool onlyWireframe;
 public:
     Model();
     void LoadMesh(const std::string& Filename);
     void Render();
-
+    void showOnlyWireframe(bool onlyWireframe);
 private:
     void InitFromScene(const aiScene* pScene, const std::string& Filename);
     void InitMesh(unsigned int Index, const aiMesh* paiMesh);
