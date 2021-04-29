@@ -11,14 +11,14 @@ Game::Game(int width, int height) {
 	glClearColor(0, 0, 0, 1);
 	gluPerspective(45, width / height, 0.1, 100);
 	glMatrixMode(GL_MODELVIEW);
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    gluLookAt(0, 0, 15, 0, 0, 0, 0, 1, 0);
-    
+        
     Model* model = new Model();
-    model->LoadMesh("../assets/pinchos.3ds");
-    models["cube"] = model;
+    model->LoadMesh("../assets/tree.3ds");
+    models["tree"] = model;
+
+    lightPosition = { 0, 1, -1, 1 };
+    ambientLightColor = { 0.7, 0.7, 0.7, 1 };
+    diffuseLightColor = { 1, 1, 1, 1 };
 }
 
 void Game::GameLoop(double deltaTime) {
@@ -44,9 +44,27 @@ void Game::GameLoop(double deltaTime) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     gluLookAt(0, 0, 15, 0, 0, 0, 0, 1, 0);
-    
-    models["cube"]->Rotate(.1 * deltaTime);
-    models["cube"]->Render();
+
+    glPushMatrix();
+    glTranslatef(0, 1, -1);
+    glBegin(GL_POLYGON);
+    glColor3f(1, 1, 1);
+    glVertex3d(-0.3, -0.3, 0);
+    glVertex3d(0.3, -0.3, 0);
+    glVertex3d(0.3, 0.3, 0);
+    glVertex3d(-0.3, 0.3, 0);
+    glEnd();
+
+    glEnable(GL_LIGHT0);
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition.data());
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLightColor.data());
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLightColor.data());
+    glPopMatrix();
+
+    models["tree"]->Rotate(.1 * deltaTime);
+    glEnable(GL_LIGHTING);
+    models["tree"]->Render();
+    glDisable(GL_LIGHTING);
 }
 
 bool Game::isRunning()

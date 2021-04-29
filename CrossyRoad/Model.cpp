@@ -9,6 +9,7 @@ MeshEntry::MeshEntry()
     VertexBuffer = GL_INVALID_VALUE;
     IndexBuffer = GL_INVALID_VALUE;
     NumIndices = 0;
+    materialIndex = GL_INVALID_VALUE;
 };
 
 MeshEntry::~MeshEntry()
@@ -34,6 +35,7 @@ void MeshEntry::Init(const std::vector<Vertex>& vertices, const std::vector<unsi
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * NumIndices, &indices[0], GL_STATIC_DRAW);
 }
 
+
 Model::Model()
 {
     orientation = 0.0;
@@ -52,7 +54,7 @@ void Model::LoadMesh(const std::string& Filename)
         aiProcess_SortByPType);
     
     if (pScene) {
-        InitFromScene(pScene, Filename);
+        InitFromScene(pScene, Filename);   
     }
     else {
         printf("Error parsing '%s': '%s'\n", Filename.c_str(), Importer.GetErrorString());
@@ -61,17 +63,22 @@ void Model::LoadMesh(const std::string& Filename)
 
 void Model::InitFromScene(const aiScene* pScene, const std::string& Filename)
 {
-    m_Entries.resize(pScene->mNumMeshes);
+     entries.resize(pScene->mNumMeshes);
+     materials.resize(pScene->mNumMaterials);
     
     // Initialize the meshes in the scene one by one
-    for (unsigned int i = 0; i < m_Entries.size(); i++) {
+    for (unsigned int i = 0; i < entries.size(); i++) {
         const aiMesh* paiMesh = pScene->mMeshes[i];
         InitMesh(i, paiMesh);
     }
+
+    InitMaterials(pScene);
 }
 
-void Model::InitMesh(unsigned int Index, const aiMesh* paiMesh)
+void Model::InitMesh(unsigned int index, const aiMesh* paiMesh)
 {
+    entries[index].materialIndex = paiMesh->mMaterialIndex;
+
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
 
@@ -94,33 +101,60 @@ void Model::InitMesh(unsigned int Index, const aiMesh* paiMesh)
         Indices.push_back(Face.mIndices[2]);
     }
 
-    m_Entries[Index].Init(Vertices, Indices);
+    entries[index].Init(Vertices, Indices);
+}
+
+void Model::InitMaterials(const aiScene* pScene)
+{
+    for (unsigned int i = 0; i < pScene->mNumMaterials; i++) {
+        aiMaterial* mat = pScene->mMaterials[i];
+        bool hasTexture = mat->GetTextureCount(aiTextureType_DIFFUSE);
+        if (!hasTexture) {
+            aiColor3D color(0.f, 0.f, 0.f);
+            mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+            materials[i].hasTexture = false;
+            materials[i].red = color.r;
+            materials[i].green = color.g;
+            materials[i].blue = color.b;
+        }
+    }
 }
 
 
 void Model::Render()
 {
-    glRotated(orientation, 0, 1, 0);
     glPushMatrix();
+    
+    glRotatef(orientation, 0, 1, 0);
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    for (unsigned int i = 0; i < m_Entries.size(); i++) {
-        glBindBuffer(GL_ARRAY_BUFFER, m_Entries[i].VertexBuffer);
+
+    for (unsigned int i = 0; i < entries.size(); i++) {
+        glBindBuffer(GL_ARRAY_BUFFER, entries[i].VertexBuffer);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
         
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Entries[i].IndexBuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, entries[i].IndexBuffer);
+        Material material = materials[entries[i].materialIndex];
 
         if (onlyWireframe) {
-            glDrawElements(GL_LINES, m_Entries[i].NumIndices, GL_UNSIGNED_INT, 0);
-        } else {
-            glDrawElements(GL_TRIANGLES, m_Entries[i].NumIndices, GL_UNSIGNED_INT, 0);
+            glColor3f(0.2, 0.2, 1);
+            glDrawElements(GL_LINES, entries[i].NumIndices, GL_UNSIGNED_INT, 0);
+        }
+        else if (!material.hasTexture) {
+            glEnable(GL_COLOR_MATERIAL);
+            glMaterialf(GL_FRONT, GL_SHININESS, 128.f);
+
+            glColor3f(material.red, material.green, material.blue);
+            glDrawElements(GL_TRIANGLES, entries[i].NumIndices, GL_UNSIGNED_INT, 0);
+            glDisable(GL_COLOR_MATERIAL);
         }
     }
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+
     glPopMatrix();
 }
 

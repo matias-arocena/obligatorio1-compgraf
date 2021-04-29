@@ -4,6 +4,7 @@
 #include "Model.h"
 class Game {
 	bool running, onlyWireframe;
+	std::vector<float> lightPosition, ambientLightColor, diffuseLightColor;
 	std::map<std::string, Model*> models;
 public:
 	Game() :Game(640, 480){};
