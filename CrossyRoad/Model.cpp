@@ -1,57 +1,24 @@
 #include "Model.h"
-#include <GL/glew.h>
+
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
+
 #include <math.h>
+#include <vector>
 
-MeshEntry::MeshEntry()
-{
-    VertexBuffer = GL_INVALID_VALUE;
-    IndexBuffer = GL_INVALID_VALUE;
-    NumIndices = 0;
-    materialIndex = GL_INVALID_VALUE;
-};
-
-MeshEntry::~MeshEntry()
-{
-    if (VertexBuffer != GL_INVALID_VALUE) {
-        glDeleteBuffers(1, &VertexBuffer);
-    }
-
-    if (IndexBuffer != 0) {
-        glDeleteBuffers(1, &IndexBuffer);
-    }
-}
-
-void MeshEntry::Init(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices) {
-    NumIndices = static_cast<unsigned int>(indices.size());
-
-    glGenBuffers(1, &VertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-
-    glGenBuffers(1, &IndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * NumIndices, &indices[0], GL_STATIC_DRAW);
-}
-
-
-Model::Model()
+Model::Model(bool flipNormals) : flipNormals{flipNormals}
 {
     orientation = 0.0;
-    onlyWireframe = false;
-}
+    hasTexture = false;
 
+}
 
 void Model::LoadMesh(const std::string& Filename)
 {
     Assimp::Importer Importer;
 
     const aiScene* pScene = Importer.ReadFile(Filename.c_str(), 
-        aiProcess_CalcTangentSpace |
-        aiProcess_Triangulate |
-        aiProcess_JoinIdenticalVertices |
-        aiProcess_SortByPType);
+        aiProcessPreset_TargetRealtime_Quality);
     
     if (pScene) {
         InitFromScene(pScene, Filename);   
@@ -61,119 +28,169 @@ void Model::LoadMesh(const std::string& Filename)
     }
 }
 
-void Model::InitFromScene(const aiScene* pScene, const std::string& Filename)
+void Model::InitFromScene(const aiScene* pScene, const std::string& filename)
 {
      entries.resize(pScene->mNumMeshes);
      materials.resize(pScene->mNumMaterials);
     
-    // Initialize the meshes in the scene one by one
     for (unsigned int i = 0; i < entries.size(); i++) {
         const aiMesh* paiMesh = pScene->mMeshes[i];
         InitMesh(i, paiMesh);
     }
 
-    InitMaterials(pScene);
+    InitMaterials(pScene, filename);
 }
 
 void Model::InitMesh(unsigned int index, const aiMesh* paiMesh)
 {
     entries[index].materialIndex = paiMesh->mMaterialIndex;
 
-    std::vector<Vertex> Vertices;
-    std::vector<unsigned int> Indices;
+    std::vector<float> pos;
+    std::vector<float> normals; 
+    std::vector<float> texCoord;
+    std::vector<unsigned int> indices;
 
     const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
     for (unsigned int i = 0; i < paiMesh->mNumVertices; i++) {
-        const aiVector3D* pPos = &(paiMesh->mVertices[i]);
-        const aiVector3D* pNormal = &(paiMesh->mNormals[i]);
+        pos.push_back(paiMesh->mVertices[i][0]);
+        pos.push_back(paiMesh->mVertices[i][1]);
+        pos.push_back(paiMesh->mVertices[i][2]);
 
-        Vertex v(pPos->x, pPos->y, pPos->z, pNormal->x, pNormal->y, pNormal->z);
+        if (flipNormals) {
+            normals.push_back(paiMesh->mNormals[i][0] * -1);
+            normals.push_back(paiMesh->mNormals[i][1] * -1);
+            normals.push_back(paiMesh->mNormals[i][2] * -1);
+        }
+        else {
+            normals.push_back(paiMesh->mNormals[i][0]);
+            normals.push_back(paiMesh->mNormals[i][1]);
+            normals.push_back(paiMesh->mNormals[i][2]);
+        }
 
-        Vertices.push_back(v);
+        if (paiMesh->HasTextureCoords(0)) {
+            texCoord.push_back(paiMesh->mTextureCoords[0][i][0]);
+            texCoord.push_back(paiMesh->mTextureCoords[0][i][1]);
+        };
     }
 
     for (unsigned int i = 0; i < paiMesh->mNumFaces; i++) {
         const aiFace& Face = paiMesh->mFaces[i];
-        assert(Face.mNumIndices == 3);
-        Indices.push_back(Face.mIndices[0]);
-        Indices.push_back(Face.mIndices[1]);
-        Indices.push_back(Face.mIndices[2]);
+        indices.push_back(Face.mIndices[0]);
+        indices.push_back(Face.mIndices[1]);
+        indices.push_back(Face.mIndices[2]);
     }
 
-    entries[index].Init(Vertices, Indices);
-}
+    pos.shrink_to_fit();
+    texCoord.shrink_to_fit();
+    normals.shrink_to_fit();
+    indices.shrink_to_fit();
 
-void Model::InitMaterials(const aiScene* pScene)
-{
-    for (unsigned int i = 0; i < pScene->mNumMaterials; i++) {
-        aiMaterial* mat = pScene->mMaterials[i];
-        bool hasTexture = mat->GetTextureCount(aiTextureType_DIFFUSE);
-        if (!hasTexture) {
-            aiColor3D color(0.f, 0.f, 0.f);
-            mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
-            materials[i].hasTexture = false;
-            materials[i].red = color.r;
-            materials[i].green = color.g;
-            materials[i].blue = color.b;
-        }
-    }
+    entries[index].pos = pos;
+    entries[index].texCoord = texCoord;
+    entries[index].normals = normals;
+    entries[index].indices = indices;
 }
-
 
 void Model::Render()
 {
     glPushMatrix();
     
     glRotatef(orientation, 0, 1, 0);
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-
 
     for (unsigned int i = 0; i < entries.size(); i++) {
-        glBindBuffer(GL_ARRAY_BUFFER, entries[i].VertexBuffer);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(3, GL_FLOAT, sizeof(float) * 3, entries[i].pos.data());
         
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, entries[i].IndexBuffer);
+        
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glNormalPointer(GL_FLOAT, sizeof(float) * 3, entries[i].normals.data());
+        
         Material material = materials[entries[i].materialIndex];
 
-        if (onlyWireframe) {
-            glColor3f(0.2, 0.2, 1);
-            glDrawElements(GL_LINES, entries[i].NumIndices, GL_UNSIGNED_INT, 0);
-        }
-        else if (!material.hasTexture) {
+        if (hasTexture && material.hasTexture) {
             glEnable(GL_COLOR_MATERIAL);
-            glMaterialf(GL_FRONT, GL_SHININESS, 128.f);
+            glColor4f(1, 1, 1, 1);
+
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(2, GL_FLOAT, sizeof(float) * 2, entries[i].texCoord.data());
+            
+            glEnable(GL_TEXTURE_2D);
+            material.texture->Bind(GL_TEXTURE_2D);
+            
+            glDrawElements(GL_TRIANGLES, entries[i].indices.size(), GL_UNSIGNED_INT, entries[i].indices.data());
+            
+            glDisable(GL_TEXTURE_2D);
+            glDisable(GL_COLOR_MATERIAL);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        } 
+        else if (!hasTexture) {
+            glEnable(GL_COLOR_MATERIAL);
+            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128.f);
 
             glColor3f(material.red, material.green, material.blue);
-            glDrawElements(GL_TRIANGLES, entries[i].NumIndices, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, entries[i].indices.size(), GL_UNSIGNED_INT, entries[i].indices.data());
             glDisable(GL_COLOR_MATERIAL);
         }
+        glDisableClientState(GL_NORMAL_ARRAY);
+        glDisableClientState(GL_VERTEX_ARRAY);
     }
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-
+    
     glPopMatrix();
 }
 
-void Model::ShowOnlyWireframe(bool onlyWireframe)
-{
-    this->onlyWireframe = onlyWireframe;
-}
 
 void Model::Rotate(double value)
 {
     orientation = fmod(orientation + value, 360);
 }
 
-Vertex::Vertex(const float posX, const float posY, const float posZ, const float normalX, const float normalY, const float normalZ)
+void Model::InitMaterials(const aiScene* pScene, const std::string& filename)
 {
-    this->posX = posX;
-    this->posY = posY;
-    this->posZ = posZ;
-    this->normalX = normalX;
-    this->normalY = normalY;
-    this->normalZ = normalZ;
+    std::string::size_type SlashIndex = filename.find_last_of("/");
+    std::string Dir;
+
+    if (SlashIndex == std::string::npos) {
+        Dir = ".";
+    }
+    else if (SlashIndex == 0) {
+        Dir = "/";
+    }
+    else {
+        Dir = filename.substr(0, SlashIndex);
+    }
+
+    for (unsigned int i = 0; i < pScene->mNumMaterials; i++) {
+        aiMaterial* mat = pScene->mMaterials[i];
+        bool hasTexture = mat->GetTextureCount(aiTextureType_DIFFUSE);
+        if (hasTexture) {
+            aiString path;
+
+            if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+                std::string FullPath = Dir + "/" + path.data;
+                this->hasTexture = true;
+                materials[i].hasTexture = true;
+                materials[i].texture = new Texture(FullPath.c_str());
+
+                if (!materials[i].texture->Load()) {
+                    materials[i].texture = nullptr;
+                }
+            }
+        }
+        else {
+            aiColor3D color(0.f, 0.f, 0.f);
+            materials[i].hasTexture = false;
+            mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+            materials[i].red = color.r;
+            materials[i].green = color.g;
+            materials[i].blue = color.b;
+
+            mat->Get(AI_MATKEY_COLOR_AMBIENT, color);
+            materials[i].red += color.r;
+            materials[i].green += color.g;
+            materials[i].blue += color.b;
+
+        }
+    }
 }

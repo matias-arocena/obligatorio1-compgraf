@@ -3,7 +3,7 @@
 #include <string>
 #include "Model.h"
 class Game {
-	bool running, onlyWireframe;
+	bool running, onlyWireframe, lighting;
 	std::vector<float> lightPosition, ambientLightColor, diffuseLightColor;
 	std::map<std::string, Model*> models;
 public:

@@ -1,2 +1,13 @@
-﻿  Game.cpp
+﻿  CrossyRoad.cpp
+  Game.cpp
+C:\Users\Matias\Projects\obligatorio1-compgraf\CrossyRoad\Game.cpp(29,44): warning C4305: 'initializing': truncation from 'double' to '_Ty'
+          with
+          [
+              _Ty=float
+          ]
+  Model.cpp
+C:\Users\Matias\Projects\obligatorio1-compgraf\CrossyRoad\Model.cpp(99,15): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Matias\Projects\obligatorio1-compgraf\CrossyRoad\Model.cpp(122,111): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\Matias\Projects\obligatorio1-compgraf\CrossyRoad\Model.cpp(133,111): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  Generating Code...
   CrossyRoad.vcxproj -> C:\Users\Matias\Projects\obligatorio1-compgraf\x64\Debug\CrossyRoad.exe
