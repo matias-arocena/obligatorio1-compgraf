@@ -13,7 +13,6 @@ void GameState::init()
 
 void GameState::update()
 {
-	cout << "update GameState" << endl;
 }
 
 void GameState::render()

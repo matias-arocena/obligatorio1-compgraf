@@ -13,7 +13,6 @@ class GameObject
 
 		virtual void update() 
 		{
-			cout << vel.x << endl;
 			pos += vel * Game::inst().getDeltaTime();
 		}
 		virtual void render() {}

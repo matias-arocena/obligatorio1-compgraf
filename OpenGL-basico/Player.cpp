@@ -22,50 +22,66 @@ void Player::update()
 		switch (evento.type)
 		{
 			case SDL_KEYDOWN:
+				cout << "Key Down" << endl;
 				switch (evento.key.keysym.sym)
 				{
 					case SDLK_UP:
+						cout << "Up" << endl;
 						pressedButtons[FORWARD] = true;
 						break;
 
 					case SDLK_DOWN:
+						cout << "Down" << endl;
 						pressedButtons[BACK] = true;
 						break;
 
 					case SDLK_LEFT:
+						cout << "Left" << endl;
 						pressedButtons[LEFT] = true;
 						break;
 
 					case SDLK_RIGHT:
+						cout << "Right" << endl;
 						pressedButtons[RIGHT] = true;
 						break;
 				}
 
 				updateVel();
 
+				cout << endl;
+
 				break;
 
 			case SDL_KEYUP:
+
+				cout << "Key Up" << endl;
+
 				switch (evento.key.keysym.sym)
 				{
 					case SDLK_UP:
+						cout << "Up" << endl;
 						pressedButtons[FORWARD] = false;
 						break;
 
 					case SDLK_DOWN:
+						cout << "Down" << endl;
 						pressedButtons[BACK] = false;
 						break;
 
 					case SDLK_LEFT:
+						cout << "Left" << endl;
 						pressedButtons[LEFT] = false;
 						break;
 
 					case SDLK_RIGHT:
+						cout << "Right" << endl;
 						pressedButtons[RIGHT] = false;
 					break;
 				}
 
 				updateVel();
+
+				cout << endl;
 
 				break;
 		}

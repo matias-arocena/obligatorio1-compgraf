@@ -6,7 +6,7 @@
 #include <conio.h>
 #include <GL/glu.h>
 #include "GameState.h"
-#include "MovementTestState.h"
+#include "LevelState.h"
 #include "Game.h"
 
 using namespace std;
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 	glMatrixMode(GL_MODELVIEW);
 
 	cout << "post create game" << endl;
-	Game::inst().setState(new MovementTestState());
+	Game::inst().setState(new LevelState());
 
 	cout << "pre begin loop";
 
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 	float x, y, z;
 
 	x = 0;
-	y = 0;
+	y = 7;
 	z = 7;
 	float degrees = 0;
 

@@ -110,19 +110,23 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="LevelState.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MovementTestState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="LevelState.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MovementTestState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
