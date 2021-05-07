@@ -7,6 +7,7 @@
 #include <GL/glu.h>
 #include "GameState.h"
 #include "LevelState.h"
+#include "MovementTestState.h"
 #include "Game.h"
 
 using namespace std;
@@ -37,7 +38,7 @@ int main(int argc, char* argv[])
 	glMatrixMode(GL_MODELVIEW);
 
 	cout << "post create game" << endl;
-	Game::inst().setState(new LevelState());
+	Game::inst().setState(new MovementTestState());
 
 	cout << "pre begin loop";
 

@@ -10,10 +10,16 @@
 
 Player::Player()
 {
+	setAccel(Vector3(0,-20,0));
 }
 
 void Player::update()
 {
+
+	if (getPos().y <= 0)
+	{
+		setVel(Vector3(getVel().x, 10, getVel().z));
+	}
 
 	//MANEJO DE EVENTOS
 	SDL_Event evento;
@@ -129,5 +135,5 @@ void Player::updateVel()
 		dir.x += 1;
 	}
 
-	setVel(dir * SPEED);
+	setVel(dir * SPEED + Vector3(0, getVel().y, 0));
 }

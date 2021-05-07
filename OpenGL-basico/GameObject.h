@@ -13,6 +13,7 @@ class GameObject
 
 		virtual void update() 
 		{
+			vel += accel * Game::inst().getDeltaTime();
 			pos += vel * Game::inst().getDeltaTime();
 		}
 		virtual void render() {}
@@ -38,8 +39,20 @@ class GameObject
 			return vel;
 		}
 
+		void setAccel(Vector3 aVector)
+		{
+			accel = aVector;
+		}
+
+		Vector3 getAccel()
+		{
+			return accel;
+		}
+
+
 	private:
 		Vector3 pos;
 		Vector3 vel;
+		Vector3 accel;
 };
 

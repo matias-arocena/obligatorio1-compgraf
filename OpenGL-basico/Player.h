@@ -12,7 +12,7 @@ class Player : public GameObject
 
 		
 	private:
-		const float SPEED = 10;
+		const float SPEED = 5;
 
 		bool pressedButtons[4] = { false, false, false, false };
 		const int FORWARD = 0;
