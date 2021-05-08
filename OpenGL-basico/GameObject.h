@@ -53,7 +53,7 @@ class GameObject
 			return accel;
 		}
 
-
+		virtual void setShowTexture(bool showTexture) {}
 		void setCurrentCollisions(std::vector<GameObject*> collisions);
 	private:
 		Vector3 accel;

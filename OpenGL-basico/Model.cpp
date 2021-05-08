@@ -1,17 +1,18 @@
 #include "Model.h"
 
+#include "Game.h"
+
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
 #include <cmath>
 #include <vector>
 
-Model::Model(bool flipNormals) : flipNormals{ flipNormals }
+Model::Model(bool flipNormals, bool showTexture) : flipNormals{ flipNormals }, showTexture {showTexture}
 {
     orientation = 0.0;
     hasTexture = false;
     hitbox = nullptr;
-
 }
 
 void Model::loadMesh(const std::string& filename)
@@ -151,12 +152,16 @@ void Model::render()
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer(2, GL_FLOAT, sizeof(float) * 2, entries[i].texCoord.data());
 
-            glEnable(GL_TEXTURE_2D);
+            if (showTexture)
+                glEnable(GL_TEXTURE_2D);
+    
             material.texture->bind();
 
             glDrawElements(GL_TRIANGLES, entries[i].indices.size(), GL_UNSIGNED_INT, entries[i].indices.data());
 
-            glDisable(GL_TEXTURE_2D);
+            if(showTexture)
+                glDisable(GL_TEXTURE_2D);
+    
             glDisable(GL_COLOR_MATERIAL);
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
@@ -173,6 +178,11 @@ void Model::render()
     }
 
     glPopMatrix();
+}
+
+void Model::setShowTextrue(bool showTexture)
+{
+    this->showTexture = showTexture;
 }
 
 HitBox* Model::getHitBox()

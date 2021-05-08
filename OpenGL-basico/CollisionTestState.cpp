@@ -8,7 +8,9 @@
 
 CollisionTestState::CollisionTestState() {
 	showWireframe = false;
+	showTexture = true;
 	updateWireframe = false;
+	updateShowTexture = false;
 }
 
 void CollisionTestState::init()
@@ -16,6 +18,10 @@ void CollisionTestState::init()
 	CubeObject* cube = new CubeObject();
 	cube->setPos(Vector3(0.0, 0.0, 0.0));
 	entities.push_back(cube);
+
+	CubeObject* enemy = new CubeObject();
+	enemy->setPos(Vector3(4.0, 0.0, 0.0));
+	entities.push_back(enemy);
 
 	TreeObject* tree = new TreeObject();
 	tree->setPos(Vector3(2.3, 0.0, 0.0));
@@ -33,6 +39,10 @@ void CollisionTestState::update()
 		case SDLK_w:
 			showWireframe = !showWireframe;
 			updateWireframe = true;
+			break;
+		case SDLK_t:
+			showTexture = !showTexture;
+			updateShowTexture = true;
 			break;
 		case SDLK_q:
 			Game::inst()._fin = true;
@@ -75,6 +85,10 @@ void CollisionTestState::update()
 
 	for (const auto& e : entities) {
 		e->setCurrentCollisions(getCollisions(e));
+		if (updateShowTexture) {
+			e->setShowTexture(showTexture);
+		}
+			
 		e->update();
 	}
 }

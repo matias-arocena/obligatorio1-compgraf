@@ -25,16 +25,17 @@ struct HitBox {
 
 class Model
 {
-    bool hasTexture, flipNormals;
+    bool hasTexture, flipNormals, showTexture;
     double orientation;
     std::vector<MeshEntry> entries;
     std::vector<Material> materials;
     HitBox* hitbox;
 public:
-    Model(bool flipNormals = false);
+    Model(bool flipNormals = false, bool showTexture = true);
     ~Model();
     void loadMesh(const std::string& filename);
     void render();
+    void setShowTextrue(bool showTexture);
     HitBox* getHitBox();
 private:
     void initFromScene(const aiScene* scene, const std::string& filename);

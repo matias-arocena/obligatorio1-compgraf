@@ -1,6 +1,9 @@
 #pragma once
 #include "SDL.h"
 #include "SDL_opengl.h"
+
+#include <map>
+
 using namespace std;
 class GameState
 {

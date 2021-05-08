@@ -6,9 +6,11 @@
 class CubeObject :
     public GameObject
 {
+    bool showTexture, updateShowTexture;;
 public:
-    CubeObject();
+    CubeObject(bool showTexture = true);
     ~CubeObject();
     void render();
+    void setShowTexture(bool showTexture);
 };
 

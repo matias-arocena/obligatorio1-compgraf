@@ -9,7 +9,7 @@
 class CollisionTestState :
     public GameState
 {
-    bool showWireframe, updateWireframe;
+    bool showWireframe, showTexture, updateWireframe, updateShowTexture;
     std::vector<GameObject*> entities;
 public:
     CollisionTestState();
