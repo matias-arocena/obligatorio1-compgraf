@@ -1,6 +1,8 @@
+#pragma once
 #include <vector>
 #include <string>
 #include <assimp/scene.h>
+
 #include "Texture.h"
 
 struct Material {
@@ -17,22 +19,26 @@ struct MeshEntry {
     std::vector<unsigned int> indices;
 };
 
+struct HitBox {
+    double xMin, xMax, yMin, yMax, zMin, zMax;
+};
+
 class Model
 {
     bool hasTexture, flipNormals;
     double orientation;
     std::vector<MeshEntry> entries;
     std::vector<Material> materials;
-
+    HitBox* hitbox;
 public:
     Model(bool flipNormals = false);
-    void LoadMesh(const std::string& Filename);
-    void Render();
-    void Rotate(double value);
-
+    ~Model();
+    void loadMesh(const std::string& filename);
+    void render();
+    HitBox* getHitBox();
 private:
-    void InitFromScene(const aiScene* pScene, const std::string& Filename);
-    void InitMesh(unsigned int Index, const aiMesh* paiMesh);
-    void InitMaterials(const aiScene* pScene, const std::string& filename);
+    void initFromScene(const aiScene* scene, const std::string& filename);
+    void initMesh(unsigned int index, const aiMesh* mesh);
+    void initMaterials(const aiScene* scene, const std::string& filename);
 };
 

@@ -9,8 +9,13 @@ Texture::Texture(const std::string& FileName)
     filename = FileName;
 }
 
+Texture::~Texture()
+{
+    glDeleteTextures(1, &textureId);
+}
 
-bool Texture::Load()
+
+bool Texture::load()
 {
     FREE_IMAGE_FORMAT fif = FreeImage_GetFIFFromFilename(filename.c_str());
     FIBITMAP* bitmap = FreeImage_Load(fif, filename.c_str());
@@ -31,7 +36,7 @@ bool Texture::Load()
     return true;
 }
 
-void Texture::Bind(GLenum TextureUnit)
+void Texture::bind()
 {
     glBindTexture(GL_TEXTURE_2D, textureId);
 }

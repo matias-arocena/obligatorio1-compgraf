@@ -1,22 +1,23 @@
 #pragma once
 #include "Vector3.h"
 #include "Game.h"
-#include <iostream>
-#include <stdio.h>
+#include "Model.h"
+
 class GameObject
 {
 	public:
 		GameObject()
 		{
 			pos = Vector3();
+			scale = Vector3(1, 1, 1);
 		}
 
 		virtual void update() 
 		{
-			cout << vel.x << endl;
 			pos += vel * Game::inst().getDeltaTime();
 		}
-		virtual void render() {}
+		virtual void render() {};
+
 		virtual void destroy() {}
 
 		Vector3 getPos()
@@ -38,9 +39,19 @@ class GameObject
 		{
 			return vel;
 		}
+		
+		HitBox* getHitBox();
 
-	private:
+		void setCurrentCollisions(std::vector<GameObject*> collisions);
+
+	protected:
 		Vector3 pos;
 		Vector3 vel;
+		Vector3 scale;
+		HitBox* hitbox;
+		std::vector<GameObject*> currentCollisions;
+		Model* model;
+
+		void doScale(Vector3 scale);
 };
 
