@@ -10,5 +10,6 @@ class GameState
 		virtual void update();
 		virtual void render();
 		virtual void destroy();
+		virtual void onEvent(SDL_Event aEvent);
 };
 

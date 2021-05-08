@@ -86,10 +86,11 @@ int main(int argc, char* argv[])
 		//glPushMatrix();
 		
 		//DIBUJAR OBJETOS
+		
+		Game::inst().checkEvents();
 
 		Game::inst()._state->update();
 		Game::inst()._state->render();
-		
 		
 		//FIN DIBUJAR OBJETOS
 		
@@ -118,4 +119,15 @@ void Game::setState(GameState *aGameState)
 		_state->destroy();
 	_state = aGameState;
 	_state->init();
+}
+
+void Game::checkEvents()
+{
+	//MANEJO DE EVENTOS
+	SDL_Event evento;
+	while (SDL_PollEvent(&evento))
+	{
+		Game::inst()._state->onEvent(evento);
+	}
+	//FIN MANEJO DE EVENTOS
 }

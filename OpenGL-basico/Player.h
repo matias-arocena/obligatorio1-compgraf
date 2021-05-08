@@ -10,8 +10,10 @@ class Player : public GameObject
 		void update();
 		void render();
 		void destroy();
+		void onEvent(SDL_Event aEvent);
 
 		void setTileMap(vector<vector<Tile*>> aMap);
+
 		
 	private:
 		const float SPEED = 5;
