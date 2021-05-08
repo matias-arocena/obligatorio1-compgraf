@@ -32,7 +32,7 @@ void LevelState::onEvent(SDL_Event aEvent)
 			// cout << "Key Down" << endl;
 			switch (aEvent.key.keysym.sym)
 			{
-				case SDLK_ESCAPE:
+				case SDLK_p:
 					isPaused = !isPaused;
 					break;
 			}

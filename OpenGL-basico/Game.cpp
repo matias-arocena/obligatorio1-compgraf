@@ -118,6 +118,19 @@ void Game::checkEvents()
 	SDL_Event evento;
 	while (SDL_PollEvent(&evento))
 	{
+		switch (evento.type)
+		{
+			case SDL_KEYDOWN:
+				// cout << "Key Down" << endl;
+				switch (evento.key.keysym.sym)
+				{
+				case SDLK_q:
+					_fin = true;
+					break;
+				}
+				break;
+		}
+
 		Game::inst()._state->onEvent(evento);
 	}
 	//FIN MANEJO DE EVENTOS
