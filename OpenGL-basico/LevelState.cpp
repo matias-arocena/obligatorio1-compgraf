@@ -24,8 +24,36 @@ void LevelState::init()
 	player->setTileMap(tileMap);
 }
 
+void LevelState::onEvent(SDL_Event aEvent)
+{
+	switch (aEvent.type)
+	{
+		case SDL_KEYDOWN:
+			// cout << "Key Down" << endl;
+			switch (aEvent.key.keysym.sym)
+			{
+				case SDLK_p:
+					isPaused = !isPaused;
+					break;
+			}
+			break;
+	}
+
+	player->onEvent(aEvent);
+}
+
 void LevelState::update()
 {
+	//MANEJO DE EVENTOS
+	SDL_Event evento;
+	while (SDL_PollEvent(&evento))
+	{
+		
+	}
+	//FIN MANEJO DE EVENTOS
+
+	if (isPaused) return;
+
 	for (int j = 0; j < tileMap.size(); j++)
 	{
 		for (int i = 0; i < tileMap[j].size(); i++)

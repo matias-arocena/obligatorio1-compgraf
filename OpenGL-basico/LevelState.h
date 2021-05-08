@@ -10,11 +10,14 @@ class LevelState : public GameState
 	public:
 		LevelState();
 		void init();
+		void onEvent(SDL_Event aEvent);
 		void update();
 		void render();
 		void destroy();
 
 	private:
+		bool isPaused = false;
+
 		Player* player;
 		vector<vector<Tile*>> tileMap;
 		void loadLevel(vector<vector<int>> aMap);

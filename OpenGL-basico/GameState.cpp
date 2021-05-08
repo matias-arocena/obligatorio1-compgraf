@@ -22,3 +22,7 @@ void GameState::render()
 void GameState::destroy()
 {
 }
+
+void GameState::onEvent(SDL_Event aEvent)
+{
+}

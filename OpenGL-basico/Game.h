@@ -22,6 +22,8 @@ class Game
 		{
 			return deltaTime;
 		}
+		
+		void checkEvents();
 
 	private:
 		Game() 
