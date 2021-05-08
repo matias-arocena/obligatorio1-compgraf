@@ -1,5 +1,7 @@
 #pragma once
 #include "GameObject.h"
+#include <vector>
+#include "Tile.h"
 
 class Player : public GameObject
 {
@@ -9,7 +11,7 @@ class Player : public GameObject
 		void render();
 		void destroy();
 
-
+		void setTileMap(vector<vector<Tile*>> aMap);
 		
 	private:
 		const float SPEED = 5;
@@ -21,5 +23,9 @@ class Player : public GameObject
 		const int RIGHT = 3;
 
 		void updateVel();
+
+		vector<vector<Tile*>> tileMap;
+		bool curTileWalkable();
+
 };
 

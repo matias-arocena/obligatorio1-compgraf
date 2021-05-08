@@ -6,6 +6,7 @@ LevelState::LevelState()
 
 void LevelState::init()
 {
+
 	vector<vector<int>> test =
 	{
 		{1, 1, 1},
@@ -16,6 +17,9 @@ void LevelState::init()
 	};
 
 	loadLevel(test);
+
+	player = new Player();
+	player->setTileMap(tileMap);
 }
 
 void LevelState::update()
@@ -29,6 +33,17 @@ void LevelState::update()
 				tileMap[j][i]->update();
 			}
 		}
+	}
+
+	player->update();
+
+	int curPlayerY = - player->getPos().z / Tile::TILE_WIDTH;
+	if (curPlayerY > maxPlayerY)
+	{
+		score += 1;
+		maxPlayerY = curPlayerY;
+
+		cout << score << endl;
 	}
 }
 
@@ -44,6 +59,8 @@ void LevelState::render()
 			}
 		}
 	}
+
+	player->render();
 }
 
 void LevelState::destroy()
@@ -58,6 +75,8 @@ void LevelState::destroy()
 			}
 		}
 	}
+
+	player->destroy();
 }
 
 void LevelState::loadLevel(vector<vector<int>> aMap)
@@ -70,6 +89,10 @@ void LevelState::loadLevel(vector<vector<int>> aMap)
 			if (aMap[j][i] == 1)
 			{
 				tileMap[j].push_back(new Tile(i, j));
+			}
+			else
+			{
+				tileMap[j].push_back(NULL);
 			}
 		}
 	}

@@ -38,14 +38,14 @@ int main(int argc, char* argv[])
 	glMatrixMode(GL_MODELVIEW);
 
 	cout << "post create game" << endl;
-	Game::inst().setState(new MovementTestState());
+	Game::inst().setState(new LevelState());
 
 	cout << "pre begin loop";
 
 	//---------------------
 	float x, y, z;
 
-	x = 0;
+	x = 3;
 	y = 7;
 	z = 7;
 	float degrees = 0;
@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
-		gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
+		gluLookAt(x, y, z, x, 0, 0, 0, 1, 0);
 		
 		//PRENDO LA LUZ (SIEMPRE DESPUES DEL gluLookAt)
 		glEnable(GL_LIGHT0); // habilita la luz 0

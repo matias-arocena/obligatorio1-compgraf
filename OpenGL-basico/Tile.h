@@ -7,7 +7,6 @@ class Tile :
         Tile(int aX, int aY);
         void render();
 
-    private:
-        const float TILE_WIDTH = 2;
+        static const int TILE_WIDTH = 2;
 };
 

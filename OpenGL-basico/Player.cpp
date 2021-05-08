@@ -15,8 +15,9 @@ Player::Player()
 
 void Player::update()
 {
-
-	if (getPos().y <= 0)
+	getPos().y;
+	curTileWalkable();
+	if (getPos().y <= 0 && curTileWalkable())
 	{
 		setVel(Vector3(getVel().x, 10, getVel().z));
 	}
@@ -28,66 +29,66 @@ void Player::update()
 		switch (evento.type)
 		{
 			case SDL_KEYDOWN:
-				cout << "Key Down" << endl;
+				// cout << "Key Down" << endl;
 				switch (evento.key.keysym.sym)
 				{
 					case SDLK_UP:
-						cout << "Up" << endl;
+						// cout << "Up" << endl;
 						pressedButtons[FORWARD] = true;
 						break;
 
 					case SDLK_DOWN:
-						cout << "Down" << endl;
+						// cout << "Down" << endl;
 						pressedButtons[BACK] = true;
 						break;
 
 					case SDLK_LEFT:
-						cout << "Left" << endl;
+						// cout << "Left" << endl;
 						pressedButtons[LEFT] = true;
 						break;
 
 					case SDLK_RIGHT:
-						cout << "Right" << endl;
+						// cout << "Right" << endl;
 						pressedButtons[RIGHT] = true;
 						break;
 				}
 
 				updateVel();
 
-				cout << endl;
+				// cout << endl;
 
 				break;
 
 			case SDL_KEYUP:
 
-				cout << "Key Up" << endl;
+				// cout << "Key Up" << endl;
 
 				switch (evento.key.keysym.sym)
 				{
 					case SDLK_UP:
-						cout << "Up" << endl;
+						// cout << "Up" << endl;
 						pressedButtons[FORWARD] = false;
 						break;
 
 					case SDLK_DOWN:
-						cout << "Down" << endl;
+						// cout << "Down" << endl;
 						pressedButtons[BACK] = false;
 						break;
 
 					case SDLK_LEFT:
-						cout << "Left" << endl;
+						// cout << "Left" << endl;
 						pressedButtons[LEFT] = false;
 						break;
 
 					case SDLK_RIGHT:
-						cout << "Right" << endl;
+						// cout << "Right" << endl;
 						pressedButtons[RIGHT] = false;
 					break;
 				}
 
 				updateVel();
 
-				cout << endl;
+				// cout << endl;
 
 				break;
 		}
@@ -104,15 +105,20 @@ void Player::render()
 	glTranslatef(getPos().x, getPos().y, getPos().z);
 	glBegin(GL_TRIANGLES);
 	glColor3f(1.0, 0.0, 0.0);
-	glVertex3f( + 1.,  - 1.,  + 0.);
-	glVertex3f( - 1.,  - 1.,  + 0.);
-	glVertex3f( + 0.,  + 1.,  + 0.);
+	glVertex3f( + 1.,  0.,  + 0.);
+	glVertex3f( - 1.,  0.,  + 0.);
+	glVertex3f( + 0.,  + 2.,  + 0.);
 	glEnd();
 	glPopMatrix();
 }
 
 void Player::destroy()
 {
+}
+
+void Player::setTileMap(vector<vector<Tile*>> aMap)
+{
+	tileMap = aMap;
 }
 
 void Player::updateVel()
@@ -136,4 +142,18 @@ void Player::updateVel()
 	}
 
 	setVel(dir * SPEED + Vector3(0, getVel().y, 0));
+}
+
+bool Player::curTileWalkable()
+{
+	if (tileMap.size() == 0)
+		return true;
+
+	int x = getPos().x / Tile::TILE_WIDTH;
+	int y = - getPos().z / Tile::TILE_WIDTH;
+
+	if (getPos().z > 0 || y >= tileMap.size() || getPos().x < 0 || x >= tileMap[y].size())
+		return false;
+
+	return (tileMap[y][x] != NULL);
 }
