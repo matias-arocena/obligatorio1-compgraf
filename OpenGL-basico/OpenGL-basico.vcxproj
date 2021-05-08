@@ -66,6 +66,10 @@
     <IncludePath>..\libs\SDL2-2.0.12\include;..\libs\FreeImage\include;..\libs\glew\include;..\libs\assimp\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\libs\FreeImage\lib;..\libs\SDL2-2.0.12\lib\x64;..\libs\glew\lib;..\libs\assimp\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>..\libs\SDL2-2.0.12\include;..\libs\FreeImage\include;..\libs\glew\include;..\libs\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\libs\FreeImage\lib;..\libs\SDL2-2.0.12\lib\x64;..\libs\glew\lib;..\libs\assimp\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -105,19 +109,31 @@
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Link>
+      <AdditionalDependencies>assimp.lib;FreeImage.lib;opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\libs\glew\lib;..\libs\FreeImage\lib;..\libs\SDL2-2.0.12\lib\x64;..\libs\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\mainExample.cpp" />
+    <ClCompile Include="CollisionTestState.cpp" />
+    <ClCompile Include="CubeObject.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LevelState.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MovementTestState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TreeObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionTestState.h" />
+    <ClInclude Include="CubeObject.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Game.h" />
@@ -127,6 +143,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TreeObject.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

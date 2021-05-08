@@ -52,9 +52,9 @@ int main(int argc, char* argv[])
 
 	bool rotate = false;
 
-	GLfloat luz_posicion[4] = { 0, 0, 1, 1 };
-	GLfloat luz_posicion1[4] = { 0, 0, -1, 1 };
-	GLfloat colorLuz[4] = { 1, 1, 1, 1 };
+	GLfloat luz_posicion[4] = { 0, 2, 2, 1 };
+	GLfloat diffuseLight[4] = { 1, 1, 1, 1 };
+	GLfloat ambientLight[4] = { 0.3, 0.3, 0.3, 0.3 };
 	//FIN INICIALIZACION
 	bool textOn = true;
 
@@ -77,12 +77,9 @@ int main(int argc, char* argv[])
 		//PRENDO LA LUZ (SIEMPRE DESPUES DEL gluLookAt)
 		glEnable(GL_LIGHT0); // habilita la luz 0
 		glLightfv(GL_LIGHT0, GL_POSITION, luz_posicion);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, colorLuz);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+		glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 				
-		glEnable(GL_LIGHT1); // habilita la luz 1
-		glLightfv(GL_LIGHT1, GL_POSITION, luz_posicion1);
-		glLightfv(GL_LIGHT1, GL_DIFFUSE, colorLuz);
-		
 		//glPushMatrix();
 		
 		//DIBUJAR OBJETOS
@@ -92,14 +89,8 @@ int main(int argc, char* argv[])
 		
 		
 		//FIN DIBUJAR OBJETOS
-		
-		//MANEJO DE EVENTOS
-		while (SDL_PollEvent(&evento)) 
-		{
-			switch (evento.type) 
-			{
-			}
-		}
+
+
 		SDL_GL_SwapWindow(win);
 
 	} while (!Game::inst()._fin);
