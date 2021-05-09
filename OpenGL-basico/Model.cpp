@@ -169,7 +169,8 @@ void Model::render()
             glEnable(GL_COLOR_MATERIAL);
             glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128.f);
 
-            glColor3f(material.red, material.green, material.blue);
+            if(showTexture)
+                glColor3f(material.red, material.green, material.blue);
             glDrawElements(GL_TRIANGLES, entries[i].indices.size(), GL_UNSIGNED_INT, entries[i].indices.data());
             glDisable(GL_COLOR_MATERIAL);
         }

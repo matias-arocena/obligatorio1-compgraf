@@ -85,14 +85,10 @@ void CollisionTestState::update()
 
 	entities[0]->setCurrentCollisions(getCollisions(entities[0]));
 	for (const auto& e : entities) {
-<<<<<<< Updated upstream
-		e->setCurrentCollisions(getCollisions(e));
 		if (updateShowTexture) {
 			e->setShowTexture(showTexture);
 		}
 			
-=======
->>>>>>> Stashed changes
 		e->update();
 	}
 }

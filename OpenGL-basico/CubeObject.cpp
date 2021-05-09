@@ -44,12 +44,6 @@ void CubeObject::update() {
 		blockLeft = blockLeftAux;
 		blockUp = blockUpAux;
 		blockDown = blockDownAux;
-		std::cout << "f: " << blockFront
-			<< ", b: " << blockBack
-			<< ", r: " << blockRight
-			<< ", l: " << blockLeft
-			<< ", u: " << blockUp
-			<< ", d: " << blockDown << std::endl;
 	}
 }
 
@@ -66,17 +60,10 @@ void CubeObject::setVel(Vector3 vel) {
 
 void CubeObject::render()
 {
-<<<<<<< Updated upstream
 	if (updateShowTexture) {
 		model->setShowTextrue(showTexture);
 	}
 
-	glPushMatrix();
-	glTranslatef(pos.x, pos.y, pos.z);
-	glScalef(scale.x, scale.y, scale.z);
-	model->render();
-	glPopMatrix();
-=======
 	if (!hitEnemy) {
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y, pos.z);
@@ -84,7 +71,6 @@ void CubeObject::render()
 		model->render();
 		glPopMatrix();
 	}
->>>>>>> Stashed changes
 }
 
 void CubeObject::setShowTexture(bool showTexture)
