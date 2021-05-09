@@ -6,10 +6,12 @@
 class CubeObject :
     public GameObject
 {
-    bool showTexture, updateShowTexture;;
+    bool showTexture, updateShowTexture, enemy, hitEnemy, blockFront, blockBack, blockLeft, blockRight, blockUp, blockDown;
 public:
-    CubeObject(bool showTexture = true);
+    CubeObject(bool showTexture = true, bool isEnemy = false);
     ~CubeObject();
+    void update();
+    void setVel(Vector3 vel);
     void render();
     void setShowTexture(bool showTexture);
 };

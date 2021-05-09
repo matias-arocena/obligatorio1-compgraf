@@ -19,8 +19,8 @@ void CollisionTestState::init()
 	cube->setPos(Vector3(0.0, 0.0, 0.0));
 	entities.push_back(cube);
 
-	CubeObject* enemy = new CubeObject();
-	enemy->setPos(Vector3(4.0, 0.0, 0.0));
+	CubeObject* enemy = new CubeObject(true);
+	enemy->setPos(Vector3(-2.3, 0.0, 0.0));
 	entities.push_back(enemy);
 
 	TreeObject* tree = new TreeObject();
@@ -83,12 +83,16 @@ void CollisionTestState::update()
 		}
 	}
 
+	entities[0]->setCurrentCollisions(getCollisions(entities[0]));
 	for (const auto& e : entities) {
+<<<<<<< Updated upstream
 		e->setCurrentCollisions(getCollisions(e));
 		if (updateShowTexture) {
 			e->setShowTexture(showTexture);
 		}
 			
+=======
+>>>>>>> Stashed changes
 		e->update();
 	}
 }
