@@ -3,17 +3,10 @@
 #include "TreeObject.h"
 #include <iostream>
 
-CubeObject::CubeObject(bool isEnemy, bool showTexture) : enemy { isEnemy }, showTexture { showTexture } {
-	model = new Model(true);
-	model->loadMesh("../assets/cube/cube.obj");
-	hitbox = model->getHitBox();
+CubeObject::CubeObject(bool isEnemy) : enemy { isEnemy } {
+	loadModel("../assets/cube/cube.obj");
 	doScale(Vector3(0.5, 0.5, 0.5));
 	hitEnemy = blockFront = blockBack = blockLeft = blockRight = blockUp = blockDown = false;
-}
-
-CubeObject::~CubeObject()
-{
-	delete model;
 }
 
 void CubeObject::update() {
@@ -22,7 +15,7 @@ void CubeObject::update() {
 		bool hitEnemyAux, blockFrontAux, blockBackAux, blockLeftAux, blockRightAux, blockUpAux, blockDownAux;
 		hitEnemyAux = blockFrontAux = blockBackAux = blockLeftAux = blockRightAux = blockUpAux = blockDownAux = false;
 
-		for (GameObject* c : currentCollisions) {
+		for (GameObject* c : GameObject::currentCollisions) {
 			if (CubeObject* e = dynamic_cast<CubeObject*>(c)) {
 				if (e->enemy) {
 					hitEnemyAux = true;
@@ -60,15 +53,11 @@ void CubeObject::setVel(Vector3 vel) {
 
 void CubeObject::render()
 {
-	if (updateShowTexture) {
-		model->setShowTextrue(showTexture);
-	}
-
 	if (!hitEnemy) {
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y, pos.z);
 		glScalef(scale.x, scale.y, scale.z);
-		model->render();
+		GameObject::render();
 		glPopMatrix();
 	}
 }
@@ -76,5 +65,4 @@ void CubeObject::render()
 void CubeObject::setShowTexture(bool showTexture)
 {
 	this->showTexture = showTexture;
-	updateShowTexture = true;
 }

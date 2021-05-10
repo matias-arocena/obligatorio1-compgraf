@@ -1,25 +1,52 @@
 #pragma once
 #include "Vector3.h"
 #include "Game.h"
-#include "Model.h"
+#include "Texture.h"
+
+#include <vector>
+#include <assimp/scene.h>
+
+struct Material {
+	bool hasTexture;
+	float red, green, blue;
+	Texture* texture;
+};
+
+struct MeshEntry {
+	unsigned int materialIndex;
+	std::vector<float> pos;
+	std::vector<float> texCoord;
+	std::vector<float> normals;
+	std::vector<unsigned int> indices;
+};
+
+struct HitBox {
+	double xMin, xMax, yMin, yMax, zMin, zMax;
+};
+
+
 
 class GameObject
 {
 	public:
-		GameObject()
+		GameObject() 
 		{
 			pos = Vector3();
 			scale = Vector3(1, 1, 1);
-		}
+		};
+		
+		~GameObject();
 
-		virtual void update() 
+		void GameObject::update()
 		{
 			vel += accel * Game::inst().getDeltaTime();
 			pos += vel * Game::inst().getDeltaTime();
 		}
-		virtual void render() {};
 
+		virtual void render();
 		virtual void destroy() {}
+
+		void loadModel(const std::string& filename, bool flipNormals = false, bool showTexture = true);
 
 		Vector3 getPos()
 		{
@@ -53,18 +80,23 @@ class GameObject
 			return accel;
 		}
 
-		virtual void setShowTexture(bool showTexture) {}
+		virtual void setShowTexture(bool showTexture);
 		void setCurrentCollisions(std::vector<GameObject*> collisions);
 	private:
 		Vector3 accel;
+		void initFromScene(const aiScene* scene, const std::string& filename);
+		void initMesh(unsigned int index, const aiMesh* mesh);
+		void initMaterials(const aiScene* scene, const std::string& filename);
 
 	protected:
 		Vector3 pos;
 		Vector3 vel;
 		Vector3 scale;
 		HitBox* hitbox;
+		bool hasTexture, hasModel, flipNormals, showTexture;
+		std::vector<MeshEntry> entries;
+		std::vector<Material> materials;
 		std::vector<GameObject*> currentCollisions;
-		Model* model;
 
 		void doScale(Vector3 scale);
 };

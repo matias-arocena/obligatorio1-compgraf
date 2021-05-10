@@ -3,16 +3,10 @@
 
 TreeObject::TreeObject()
 {
-	model = new Model(true);
-	model->loadMesh("../assets/tree.3ds");
-	hitbox = model->getHitBox();
+	loadModel("../assets/tree.3ds", true);
 	doScale(Vector3(0.8, 0.8, 0.8));
 }
 
-TreeObject::~TreeObject()
-{
-	delete model;
-}
 
 void TreeObject::render()
 {
@@ -21,7 +15,7 @@ void TreeObject::render()
 	glTranslatef(pos.x, pos.y, pos.z);
 	glScalef(scale.x, scale.y, scale.z);
 	glEnable(GL_LIGHTING);
-	model->render();
+	GameObject::render();
 	glDisable(GL_LIGHTING);
 	
 	glPopMatrix();
