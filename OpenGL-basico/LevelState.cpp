@@ -24,7 +24,7 @@ void LevelState::init()
 	player = new Player();
 	player->setTileMap(tileMap);
 
-	Game::inst().cam->setObjectToFollow(*player);
+	Game::inst().cam->setObjectToFollow(player);
 }
 
 void LevelState::onEvent(SDL_Event aEvent)

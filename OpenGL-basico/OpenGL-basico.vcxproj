@@ -118,6 +118,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\mainExample.cpp" />
+    <ClCompile Include="Camara.cpp" />
     <ClCompile Include="CubeObject.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -131,6 +132,7 @@
     <ClCompile Include="TreeObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camara.h" />
     <ClInclude Include="CollisionTestState.h" />
     <ClInclude Include="CubeObject.h" />
     <ClInclude Include="GameObject.h" />

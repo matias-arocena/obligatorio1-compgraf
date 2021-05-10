@@ -7,12 +7,12 @@ class Camara : public GameObject
 		/*Camara();*/
 		void update();
 		void onEvent(SDL_Event aEvent);
-		GameObject getObjectToFollow();
-		void setObjectToFollow(GameObject player);
+		GameObject* getObjectToFollow();
+		void setObjectToFollow(GameObject *player);
 	private:
 		int state = ISOMETRIC;
 		const int ISOMETRIC = 0;
 		const int FOLLOW = 1;
-		GameObject objectToFollow;
+		GameObject *objectToFollow;
 		Vector3 offSet = (0, 0, 0);
 };

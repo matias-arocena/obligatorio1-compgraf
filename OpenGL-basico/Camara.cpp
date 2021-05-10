@@ -3,13 +3,14 @@
 #include <iostream>
 #include <stdio.h>
 #include "Camara.h"
+#include <gl/GLU.h>
 
 //Camara::Camara()
 //{ }
 
-GameObject Camara::getObjectToFollow() { return objectToFollow; }
+GameObject* Camara::getObjectToFollow() { return objectToFollow; }
 
-void Camara::setObjectToFollow(GameObject player) {
+void Camara::setObjectToFollow(GameObject* player) {
 	objectToFollow = player;
 }
 
@@ -19,12 +20,12 @@ void Camara::update()
 	int y_focus = 0;
 	int z_focus = 0;
 
-	if (objectToFollow !== NULL) {
-		x_focus = objectToFollow.getPos().x;
-		z_focus = objectToFollow.getPos().z;
+	if (objectToFollow != NULL) {
+		x_focus = objectToFollow->getPos().x;
+		z_focus = objectToFollow->getPos().z;
 	}	
 
-	gluLookAt(getPos().x - offSet.x, getPost().y - offSet.y, getPos().z - offSet.z, x_focus, 0, z_focus, 0, 1, 0);
+	gluLookAt(getPos().x - offSet.x, getPos().y - offSet.y, getPos().z - offSet.z, x_focus, 0, z_focus, 0, 1, 0);
 
 	GameObject::update();
 }
@@ -47,10 +48,10 @@ void Camara::onEvent(SDL_Event aEvent)
 		case SDLK_v:
 			state = (state + 1) % 3;
 
-			if (state === ISOMETRIC) {
+			if (state == ISOMETRIC) {
 				offSet = (-25, -25, -25);
 			}
-			if (state === FOLLOW) {
+			if (state == FOLLOW) {
 				//Calculo de rotacion
 				// newX = x cos(angulo) - y sen(angulo)
 				// newY = y sen(angulo) + x cos(angulo)
