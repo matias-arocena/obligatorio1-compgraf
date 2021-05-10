@@ -118,7 +118,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\mainExample.cpp" />
-    <ClCompile Include="CollisionTestState.cpp" />
     <ClCompile Include="CubeObject.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />

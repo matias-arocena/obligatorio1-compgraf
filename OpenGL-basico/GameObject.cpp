@@ -1,5 +1,5 @@
 #include "GameObject.h"
-
+#include "Game.h"
 #include <iostream>
 
 HitBox* GameObject::getHitBox()
@@ -10,6 +10,12 @@ HitBox* GameObject::getHitBox()
 void GameObject::setCurrentCollisions(std::vector<GameObject*> collisions)
 {
     currentCollisions = collisions;
+}
+
+void GameObject::update()
+{
+    vel += accel * Game::inst().getDeltaTime();
+    pos += vel * Game::inst().getDeltaTime();
 }
 
 void GameObject::doScale(Vector3 scale)

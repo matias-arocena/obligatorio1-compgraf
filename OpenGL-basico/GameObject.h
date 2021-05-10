@@ -1,7 +1,9 @@
 #pragma once
 #include "Vector3.h"
-#include "Game.h"
+//#include "Game.h"
 #include "Model.h"
+
+class Game;
 
 class GameObject
 {
@@ -10,16 +12,24 @@ class GameObject
 		{
 			pos = Vector3();
 			scale = Vector3(1, 1, 1);
+			rot = Vector3();
 		}
 
-		virtual void update() 
-		{
-			vel += accel * Game::inst().getDeltaTime();
-			pos += vel * Game::inst().getDeltaTime();
-		}
+		virtual void update();
+
 		virtual void render() {};
 
 		virtual void destroy() {}
+
+		Vector3 getRot()
+		{
+			return rot;
+		}
+
+		void setRot(Vector3 aVector)
+		{
+			rot = aVector;
+		}
 
 		Vector3 getPos()
 		{
@@ -62,6 +72,7 @@ class GameObject
 		Vector3 pos;
 		Vector3 vel;
 		Vector3 scale;
+		Vector3 rot;
 		HitBox* hitbox;
 		std::vector<GameObject*> currentCollisions;
 		Model* model;

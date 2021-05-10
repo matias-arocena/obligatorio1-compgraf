@@ -103,6 +103,12 @@ void Player::onEvent(SDL_Event aEvent)
 			pressedButtons[RIGHT] = false;
 			break;
 		}
+		case SDLK_a:
+			setRot( (getRot().x, getRot().y + 1, getRot().z) );
+			break;
+		case SDLK_d:
+			setRot((getRot().x, getRot().y - 1, getRot().z));
+			break;
 
 		updateVel();
 

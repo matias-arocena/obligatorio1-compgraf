@@ -1,6 +1,7 @@
 #include "LevelState.h"
 
 #include <iostream>
+#include "Game.h"
 
 LevelState::LevelState()
 {
@@ -22,6 +23,8 @@ void LevelState::init()
 
 	player = new Player();
 	player->setTileMap(tileMap);
+
+	Game::inst().cam->setObjectToFollow(*player);
 }
 
 void LevelState::onEvent(SDL_Event aEvent)

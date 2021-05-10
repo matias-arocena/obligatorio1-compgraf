@@ -8,8 +8,8 @@
 #include "GameState.h"
 #include "LevelState.h"
 //#include "MovementTestState.h"
-#include "CollisionTestState.h"
 #include "Game.h"
+#include "Camara.h"
 
 using namespace std;
 
@@ -39,8 +39,9 @@ int main(int argc, char* argv[])
 	glMatrixMode(GL_MODELVIEW);
 
 	cout << "post create game" << endl;
-	//Game::inst().setState(new LevelState());
-	Game::inst().setState(new CollisionTestState());
+	Game::inst().setState(new LevelState());
+	Camara * cam = new Camara();
+	//Game::inst().setState(new CollisionTestState());
 
 	cout << "pre begin loop";
 
@@ -74,7 +75,7 @@ int main(int argc, char* argv[])
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
-		gluLookAt(x, y, z, x, 0, 0, 0, 1, 0);
+		Game::inst().cam->update();
 		
 		//PRENDO LA LUZ (SIEMPRE DESPUES DEL gluLookAt)
 		glEnable(GL_LIGHT0); // habilita la luz 0
@@ -122,18 +123,22 @@ void Game::checkEvents()
 	{
 		switch (evento.type)
 		{
-			case SDL_KEYDOWN:
-				// cout << "Key Down" << endl;
-				switch (evento.key.keysym.sym)
-				{
-				case SDLK_q:
-					_fin = true;
-					break;
-				}
+		case SDL_KEYDOWN:
+			// cout << "Key Down" << endl;
+			switch (evento.key.keysym.sym)
+			{
+			case SDLK_q:
+				_fin = true;
 				break;
+			}
+			break;
 		}
 
 		Game::inst()._state->onEvent(evento);
 	}
 	//FIN MANEJO DE EVENTOS
+};
+
+Camara * Game::getCamara() {
+	return cam;
 }
