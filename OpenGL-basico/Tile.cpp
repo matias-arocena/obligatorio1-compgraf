@@ -2,19 +2,16 @@
 
 Tile::Tile(int aX, int aY)
 {
-	setPos(Vector3(aX * TILE_WIDTH, 0, -aY * TILE_WIDTH));
+	loadModel("../assets/tiles/block.obj");
+	setPos(Vector3((aX + 0.5f) * TILE_WIDTH, - TILE_WIDTH, -(aY + 0.5f) * TILE_WIDTH));
+	doScale(Vector3(2, 2, 2));
 }
 
 void Tile::render()
 {
 	glPushMatrix();
 	glTranslatef(getPos().x, getPos().y, getPos().z);
-	glBegin(GL_QUADS);
-	glColor3f(1.0, 1.0, 1.0);
-	glVertex3f(0, 0, -TILE_WIDTH);
-	glVertex3f(0, 0, 0);
-	glVertex3f(TILE_WIDTH, 0, 0);
-	glVertex3f(TILE_WIDTH, 0, -TILE_WIDTH);
-	glEnd();
+	glScalef(scale.x, scale.y, scale.z);
+	GameObject::render();
 	glPopMatrix();
 }

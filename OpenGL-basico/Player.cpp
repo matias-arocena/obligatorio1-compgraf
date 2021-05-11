@@ -11,8 +11,8 @@
 
 Player::Player()
 {
-	loadModel("../assets/cube/cube.obj");
-	doScale(Vector3(0.3, 0.3, 0.3));
+	loadModel("../assets/player.obj");
+	doScale(Vector3(1, 1, 1));
 	setAccel(Vector3(0,-20,0));
 }
 
