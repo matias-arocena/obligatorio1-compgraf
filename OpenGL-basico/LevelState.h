@@ -19,6 +19,7 @@ class LevelState : public GameState
 		bool isPaused = false;
 
 		Player* player;
+		vector<GameObject*> entities;
 		vector<vector<Tile*>> tileMap;
 		void loadLevel(vector<vector<int>> aMap);
 		int score = 0;

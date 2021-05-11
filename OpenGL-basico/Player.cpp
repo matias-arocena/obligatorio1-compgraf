@@ -7,21 +7,30 @@
 #include <conio.h>
 #include <GL/glu.h>
 #include "Game.h"
+#include "Enemy.h"
 
 Player::Player()
 {
+	loadModel("../assets/cube/cube.obj");
+	doScale(Vector3(0.3, 0.3, 0.3));
 	setAccel(Vector3(0,-20,0));
 }
 
 void Player::update()
 {
-	getPos().y;
-	curTileWalkable();
-	if (getPos().y <= 0 && curTileWalkable())
+	volatile float posY = getPos().y + getHitBox()->xMin;
+	if (getPos().y + getHitBox()->xMin <= 0 && curTileWalkable())
 	{
 		setVel(Vector3(getVel().x, 10, getVel().z));
 	}
 	
+	for (auto& entity : currentCollisions) {
+		if (dynamic_cast<Enemy*>(entity) != nullptr) {
+			pos.x = 0;
+			pos.y = -20;
+		}
+	}
+
 	GameObject::update();
 }
 
@@ -29,12 +38,8 @@ void Player::render()
 {
 	glPushMatrix();
 	glTranslatef(getPos().x, getPos().y, getPos().z);
-	glBegin(GL_TRIANGLES);
-	glColor3f(1.0, 0.0, 0.0);
-	glVertex3f( + 1.,  0.,  + 0.);
-	glVertex3f( - 1.,  0.,  + 0.);
-	glVertex3f( + 0.,  + 2.,  + 0.);
-	glEnd();
+	glScalef(scale.x, scale.y, scale.z);
+	GameObject::render();
 	glPopMatrix();
 }
 
@@ -115,6 +120,25 @@ void Player::onEvent(SDL_Event aEvent)
 void Player::setTileMap(vector<vector<Tile*>> aMap)
 {
 	tileMap = aMap;
+}
+
+void Player::calculateCollisions(vector<GameObject*> entities)
+{
+	currentCollisions.clear();
+	for (auto& e : entities) {
+		if (e != this) {
+			bool collisionX = this->pos.x + this->hitbox->xMax >= e->getPos().x + e->getHitBox()->xMin &&
+				this->pos.x + this->hitbox->xMin <= e->getPos().x + e->getHitBox()->xMax;
+			bool collisionY = this->pos.y + this->hitbox->yMax >= e->getPos().y + e->getHitBox()->yMin &&
+				this->pos.y + this->hitbox->yMin <= e->getPos().y + e->getHitBox()->yMax;
+			bool collisionZ = this->pos.z + this->hitbox->zMax >= e->getPos().z + e->getHitBox()->zMin &&
+				this->pos.z + this->hitbox->zMin <= e->getPos().z + e->getHitBox()->zMax;
+			
+			if (collisionX && collisionY && collisionZ) {
+				currentCollisions.push_back(e);
+			}
+		}
+	}
 }
 
 void Player::updateVel()

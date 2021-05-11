@@ -37,12 +37,7 @@ class GameObject
 		
 		~GameObject();
 
-		void GameObject::update()
-		{
-			vel += accel * Game::inst().getDeltaTime();
-			pos += vel * Game::inst().getDeltaTime();
-		}
-
+		virtual void update(); 
 		virtual void render();
 		virtual void destroy() {}
 

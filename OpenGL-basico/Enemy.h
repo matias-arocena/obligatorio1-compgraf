@@ -1,12 +1,13 @@
 #pragma once
 #include "GameObject.h"
 
-class TreeObject :
+class Enemy :
     public GameObject
 {
 public:
-    TreeObject();
-    void render();
+    Enemy();
     void update();
+    void render();
+    void setShowTexture(bool showTexture);
 };
 

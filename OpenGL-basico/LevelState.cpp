@@ -1,5 +1,7 @@
 #include "LevelState.h"
 
+#include "Enemy.h"
+
 #include <iostream>
 
 LevelState::LevelState()
@@ -22,6 +24,11 @@ void LevelState::init()
 
 	player = new Player();
 	player->setTileMap(tileMap);
+
+	Enemy* enemy = new Enemy();
+	enemy->setPos(Vector3(-7, -enemy->getHitBox()->yMin, -5));
+	enemy->setVel(Vector3(1, 0, 0));
+	entities.push_back(enemy);
 }
 
 void LevelState::onEvent(SDL_Event aEvent)
@@ -65,6 +72,11 @@ void LevelState::update()
 		}
 	}
 
+	for (auto& e : entities) {
+		e->update();
+	}
+
+	player->calculateCollisions(entities);
 	player->update();
 
 	int curPlayerY = - player->getPos().z / Tile::TILE_WIDTH;
@@ -90,6 +102,9 @@ void LevelState::render()
 		}
 	}
 
+	for (auto& e : entities) {
+		e->render();
+	}
 	player->render();
 }
 

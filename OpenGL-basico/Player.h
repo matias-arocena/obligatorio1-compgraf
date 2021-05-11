@@ -13,7 +13,7 @@ class Player : public GameObject
 		void onEvent(SDL_Event aEvent);
 
 		void setTileMap(vector<vector<Tile*>> aMap);
-
+		void calculateCollisions(vector<GameObject*> entities);
 		
 	private:
 		const float SPEED = 5;
@@ -29,5 +29,6 @@ class Player : public GameObject
 		vector<vector<Tile*>> tileMap;
 		bool curTileWalkable();
 
+		vector<GameObject*> currentCollisions;
 };
 

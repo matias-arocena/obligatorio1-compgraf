@@ -17,6 +17,12 @@ GameObject::~GameObject()
     }
 }
 
+void GameObject::update()
+{
+    vel += accel * Game::inst().getDeltaTime();
+    pos += vel * Game::inst().getDeltaTime();
+}
+
 void GameObject::render()
 {
     if (hasModel) {
