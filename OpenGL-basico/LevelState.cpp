@@ -20,14 +20,15 @@ void LevelState::init()
 		{1, 1, 1}
 	};
 
-	loadLevel(test);
+//	loadLevel(test);
 
 	player = new Player();
 	player->setTileMap(tileMap);
 
 	Enemy* enemy = new Enemy();
-	enemy->setPos(Vector3(-7, -enemy->getHitBox()->yMin, -5));
-	enemy->setVel(Vector3(1, 0, 0));
+	enemy->setPos(Vector3(0, -enemy->getHitBox()->yMin, -5));
+//	enemy->setPos(Vector3(-7, 0.5-enemy->getHitBox()->yMin, -5));
+//	enemy->setVel(Vector3(1, 0, 0));
 	entities.push_back(enemy);
 }
 
@@ -42,7 +43,49 @@ void LevelState::onEvent(SDL_Event aEvent)
 				case SDLK_p:
 					isPaused = !isPaused;
 					break;
+				case SDLK_w:
+					showWireframe = !showWireframe;
+					updateWireframe = true;
+					break;
+				case SDLK_t:
+					showTexture = !showTexture;
+					player->setShowTexture(showTexture);
+					for (auto& e : entities) {
+						e->setShowTexture(showTexture);
+					}	
+					for (int j = 0; j < tileMap.size(); j++)
+					{
+						for (int i = 0; i < tileMap[j].size(); i++)
+						{
+							if (tileMap[j][i] != nullptr)
+							{
+								tileMap[j][i]->setShowTexture(showTexture);
+							}
+						}
+					}
+					break;
+				case SDLK_h:
+					showHitbox = !showHitbox;
+					player->setShowHitbox(showHitbox);
+					for (auto& e : entities) {
+						e->setShowHitbox(showHitbox);
+					}
+					for (int j = 0; j < tileMap.size(); j++)
+					{
+						for (int i = 0; i < tileMap[j].size(); i++)
+						{
+							if (tileMap[j][i] != nullptr)
+							{
+								tileMap[j][i]->setShowHitbox(showHitbox);
+							}
+						}
+					}
+					break;
+				default:
+					break;
 			}
+			break;
+		default:
 			break;
 	}
 
@@ -51,14 +94,6 @@ void LevelState::onEvent(SDL_Event aEvent)
 
 void LevelState::update()
 {
-	//MANEJO DE EVENTOS
-	SDL_Event evento;
-	while (SDL_PollEvent(&evento))
-	{
-		
-	}
-	//FIN MANEJO DE EVENTOS
-
 	if (isPaused) return;
 
 	for (int j = 0; j < tileMap.size(); j++)
@@ -91,6 +126,11 @@ void LevelState::update()
 
 void LevelState::render()
 {
+	if (updateWireframe) {
+		glPolygonMode(GL_FRONT_AND_BACK, showWireframe ? GL_LINE : GL_FILL);
+		updateWireframe = false;
+	}
+
 	for (int j = 0; j < tileMap.size(); j++)
 	{
 		for (int i = 0; i < tileMap[j].size(); i++)

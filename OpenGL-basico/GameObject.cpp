@@ -28,6 +28,13 @@ void GameObject::render()
     if (hasModel) {
         glPushMatrix();
 
+        if(showHitbox)
+            drawHitbox();
+
+        glScalef(scale.x, scale.y, scale.z);
+        glRotatef(rot.y, 0, 1, 0);
+
+        
         for (unsigned int i = 0; i < entries.size(); i++) {
 
             glEnableClientState(GL_VERTEX_ARRAY);
@@ -48,6 +55,8 @@ void GameObject::render()
 
                 if (showTexture)
                     glEnable(GL_TEXTURE_2D);
+                else
+                    glColor4f(0.7, 0.7, 0.7, 1);
 
                 material.texture->bind();
 
@@ -60,13 +69,20 @@ void GameObject::render()
                 glDisableClientState(GL_TEXTURE_COORD_ARRAY);
             }
             else if (!hasTexture) {
-                glEnable(GL_COLOR_MATERIAL);
-                glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128.f);
-
-                if (showTexture)
+                
+                if (showTexture) {
+                    glEnable(GL_COLOR_MATERIAL);
+                    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128.f);
                     glColor3f(material.red, material.green, material.blue);
+                }
+                else {
+                    glColor4f(0.7, 0.7, 0.7, 1);
+                }
+    
                 glDrawElements(GL_TRIANGLES, entries[i].indices.size(), GL_UNSIGNED_INT, entries[i].indices.data());
-                glDisable(GL_COLOR_MATERIAL);
+                
+                if(showTexture) 
+                    glDisable(GL_COLOR_MATERIAL);
             }
             glDisableClientState(GL_NORMAL_ARRAY);
             glDisableClientState(GL_VERTEX_ARRAY);
@@ -159,13 +175,7 @@ void GameObject::initMesh(unsigned int index, const aiMesh* mesh)
         indices.push_back(face.mIndices[2]);
     }
 
-    hitbox = new HitBox();
-    hitbox->xMax = xMax;
-    hitbox->xMin = xMin;
-    hitbox->yMax = yMax;
-    hitbox->yMin = yMin;
-    hitbox->zMax = zMax;
-    hitbox->zMin = zMin;
+    hitbox = new HitBox(xMin, xMax, yMin, yMax, zMin, zMax);
 
     pos.shrink_to_fit();
     texCoord.shrink_to_fit();
@@ -228,6 +238,48 @@ void GameObject::initMaterials(const aiScene* scene, const std::string& filename
     }
 }
 
+void GameObject::drawHitbox()
+{
+    double xMax = hitbox->xMax;
+    double xMin = hitbox->xMin;
+    double yMax = hitbox->yMax;
+    double yMin = hitbox->yMin;
+    double zMax = hitbox->zMax;
+    double zMin = hitbox->zMin;
+    
+    glBegin(GL_LINES);
+        glColor4f(1.0f, 1.0f, 0.0f, 1);
+        glVertex3f(0, 5, 0); glVertex3f(0, -5, 0);
+    glEnd();
+        
+    glBegin(GL_QUADS);
+
+        glColor4f(1.0f, 0.0f, 0.0f, 1);
+
+        glVertex3f(xMax, yMax, zMax);
+        glVertex3f(xMax, yMax, zMin);
+        glVertex3f(xMin, yMax, zMin);
+        glVertex3f(xMin, yMax, zMax);
+
+        glVertex3f(xMax, yMax, zMax);
+        glVertex3f(xMin, yMax, zMax);
+        glVertex3f(xMin, yMin, zMax);
+        glVertex3f(xMax, yMin, zMax);
+
+
+        glVertex3f(xMax, yMin, zMax);
+        glVertex3f(xMax, yMin, zMin);
+        glVertex3f(xMin, yMin, zMin);
+        glVertex3f(xMin, yMin, zMax);
+
+        glVertex3f(xMax, yMax, zMin);
+        glVertex3f(xMin, yMax, zMin);
+        glVertex3f(xMin, yMin, zMin);
+        glVertex3f(xMax, yMin, zMin);
+
+    glEnd();
+}
+
 void GameObject::loadModel(const std::string& filename, bool flipNormals, bool showTexture)
 {
     this->flipNormals = flipNormals;
@@ -251,9 +303,19 @@ HitBox* GameObject::getHitBox()
     return hitbox;
 }
 
+void GameObject::scaleHitbox(Vector3 scale)
+{
+    hitbox->scale(scale);
+}
+
 void GameObject::setShowTexture(bool showTexture)
 {
     this->showTexture = showTexture;
+}
+
+void GameObject::setShowHitbox(bool showHitbox)
+{
+    this->showHitbox = showHitbox;
 }
 
 void GameObject::setCurrentCollisions(std::vector<GameObject*> collisions)
@@ -263,13 +325,94 @@ void GameObject::setCurrentCollisions(std::vector<GameObject*> collisions)
 
 void GameObject::doScale(Vector3 scale)
 {
-    hitbox->xMax = hitbox->xMax * scale.x;
-    hitbox->xMin = hitbox->xMin * scale.x;
-    hitbox->yMax = hitbox->yMax * scale.y;
-    hitbox->yMin = hitbox->yMin * scale.y;
-    hitbox->zMax = hitbox->zMax * scale.z;
-    hitbox->zMin = hitbox->zMin * scale.z;
-
     this->scale = scale;
+    
+    hitbox->scale(scale);
+}
+
+void GameObject::doRotate(Vector3 rot)
+{
+    this->rot = rot;
+
+    hitbox->rotate(rot);
+}
+
+HitBox::HitBox(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax) :
+    xMin{xMin}, xMax{xMax}, yMin{yMin}, yMax{yMax}, zMin{zMin}, zMax{zMax}
+{
+    upperRightFront = Vector3(xMax, yMax, zMax);
+    upperRightBack = Vector3(xMax, yMax, zMin);
+    upperLeftFront = Vector3(xMin, yMax, zMax);
+    upperLeftBack = Vector3(xMin, yMax, zMin);
+    lowerRightFront = Vector3(xMax, yMin, zMax);
+    lowerRightBack = Vector3(xMax, yMin, zMin);
+    lowerLeftFront = Vector3(xMin, yMin, zMax);
+    lowerLeftBack = Vector3(xMin, yMin, zMin);
+}
+
+void HitBox::rotate(Vector3 rot)
+{
+    xMin = xMax = yMin = yMax = zMin = zMax = 0;
+
+    upperRightFront = rotateVertex(upperRightFront, rot);
+    recalculateBounds(upperRightFront);
+    upperRightBack = rotateVertex(upperRightBack, rot);
+    recalculateBounds(upperRightBack);
+    upperLeftFront = rotateVertex(upperLeftFront, rot);
+    recalculateBounds(upperLeftFront);
+    upperLeftBack = rotateVertex(upperLeftBack, rot);
+    recalculateBounds(upperLeftBack);
+    lowerRightFront = rotateVertex(lowerRightFront, rot);
+    recalculateBounds(lowerRightFront);
+    lowerRightBack = rotateVertex(lowerRightBack, rot);
+    recalculateBounds(lowerRightBack);
+    lowerLeftFront = rotateVertex(lowerLeftFront, rot);
+    recalculateBounds(lowerLeftFront);
+    lowerLeftBack = rotateVertex(lowerLeftBack, rot);
+    recalculateBounds(lowerLeftBack);
+}
+
+void HitBox::scale(Vector3 scale)
+{
+    xMin = xMax = yMin = yMax = zMin = zMax = 0;
+
+    upperRightFront = scaleVertex(upperRightFront, scale);
+    recalculateBounds(upperRightFront);
+    upperRightBack = scaleVertex(upperRightBack, scale);
+    recalculateBounds(upperRightBack);
+    upperLeftFront = scaleVertex(upperLeftFront, scale);
+    recalculateBounds(upperLeftFront);
+    upperLeftBack = scaleVertex(upperLeftBack, scale);
+    recalculateBounds(upperLeftBack);
+    lowerRightFront = scaleVertex(lowerRightFront, scale);
+    recalculateBounds(lowerRightFront);
+    lowerRightBack = scaleVertex(lowerRightBack, scale);
+    recalculateBounds(lowerRightBack);
+    lowerLeftFront = scaleVertex(lowerLeftFront, scale);
+    recalculateBounds(lowerLeftFront);
+    lowerLeftBack = scaleVertex(lowerLeftBack, scale);
+    recalculateBounds(lowerLeftBack);
+}
+
+Vector3 HitBox::rotateVertex(Vector3 vertex, Vector3 rot)
+{
+    float x = vertex.x * cos(rot.y) + vertex.z * sin(rot.y);
+    float z = vertex.z * cos(rot.y) - vertex.x * sin(rot.y);
+    return Vector3(x, vertex.y, z);
+}
+
+Vector3 HitBox::scaleVertex(Vector3 vertex, Vector3 scale)
+{
+    return Vector3(vertex.x * scale.x, vertex.y * scale.y, vertex.z * scale.z);
+}
+
+void HitBox::recalculateBounds(Vector3 vertex)
+{
+    xMin = vertex.x < xMin ? vertex.x : xMin;
+    xMax = vertex.x > xMax ? vertex.x : xMax;
+    yMin = vertex.y < yMin ? vertex.y : yMin;
+    yMax = vertex.y > yMax ? vertex.y : yMax;
+    zMin = vertex.z < zMin ? vertex.z : zMin;
+    zMax = vertex.z > zMax ? vertex.z : zMax;
 }
 

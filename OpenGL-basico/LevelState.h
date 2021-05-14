@@ -17,6 +17,10 @@ class LevelState : public GameState
 
 	private:
 		bool isPaused = false;
+		bool showWireframe = false;
+		bool updateWireframe = false;
+		bool showTexture = true;
+		bool showHitbox = false;
 
 		Player* player;
 		vector<GameObject*> entities;

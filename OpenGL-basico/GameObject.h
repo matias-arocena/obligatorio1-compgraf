@@ -22,6 +22,21 @@ struct MeshEntry {
 
 struct HitBox {
 	double xMin, xMax, yMin, yMax, zMin, zMax;
+	HitBox(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax);
+	void rotate(Vector3 rot);
+	void scale(Vector3 scale);
+private:
+	Vector3 upperRightFront;
+	Vector3 upperRightBack;
+	Vector3 upperLeftFront;
+	Vector3 upperLeftBack;
+	Vector3 lowerRightFront;
+	Vector3 lowerRightBack;
+	Vector3 lowerLeftFront;
+	Vector3 lowerLeftBack;
+	Vector3 rotateVertex(Vector3 vertex, Vector3 rot);
+	Vector3 scaleVertex(Vector3 vertex, Vector3 scale);
+	void recalculateBounds(Vector3 vertex);
 };
 
 
@@ -33,6 +48,8 @@ class GameObject
 		{
 			pos = Vector3();
 			scale = Vector3(1, 1, 1);
+			rot = Vector3();
+			showHitbox = false;
 		};
 		
 		~GameObject();
@@ -76,23 +93,28 @@ class GameObject
 		}
 
 		virtual void setShowTexture(bool showTexture);
+		void setShowHitbox(bool showHitbox);
 		void setCurrentCollisions(std::vector<GameObject*> collisions);
+		void scaleHitbox(Vector3 scale);
 	private:
 		Vector3 accel;
 		void initFromScene(const aiScene* scene, const std::string& filename);
 		void initMesh(unsigned int index, const aiMesh* mesh);
 		void initMaterials(const aiScene* scene, const std::string& filename);
+		void drawHitbox();
 
 	protected:
 		Vector3 pos;
 		Vector3 vel;
+		Vector3 rot;
 		Vector3 scale;
 		HitBox* hitbox;
-		bool hasTexture, hasModel, flipNormals, showTexture;
+		bool hasTexture, hasModel, flipNormals, showTexture, showHitbox;
 		std::vector<MeshEntry> entries;
 		std::vector<Material> materials;
 		std::vector<GameObject*> currentCollisions;
 
 		void doScale(Vector3 scale);
+		void doRotate(Vector3 rot);
 };
 

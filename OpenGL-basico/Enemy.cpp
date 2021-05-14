@@ -4,7 +4,8 @@
 
 Enemy::Enemy() {
 	loadModel("../assets/cube/cube.obj");
-	doScale(Vector3(0.5, 0.5, 0.5));
+	doScale(Vector3(2, 2, 2));
+	doRotate(Vector3(0, 45, 0));
 }
 
 void Enemy::update() {
@@ -18,7 +19,6 @@ void Enemy::render()
 {
 	glPushMatrix();
 	glTranslatef(pos.x, pos.y, pos.z);
-	glScalef(scale.x, scale.y, scale.z);
 	GameObject::render();
 	glPopMatrix();
 }
