@@ -4,8 +4,7 @@
 
 Enemy::Enemy() {
 	loadModel("../assets/cube/cube.obj");
-	doScale(Vector3(2, 2, 2));
-	doRotate(Vector3(0, 45, 0));
+	doScale(Vector3(0.5, 0.5, 0.5));
 }
 
 void Enemy::update() {

@@ -11,7 +11,6 @@ void Tile::render()
 {
 	glPushMatrix();
 	glTranslatef(getPos().x, getPos().y, getPos().z);
-	glScalef(scale.x, scale.y, scale.z);
 	GameObject::render();
 	glPopMatrix();
 }

@@ -20,15 +20,15 @@ void LevelState::init()
 		{1, 1, 1}
 	};
 
-//	loadLevel(test);
+	loadLevel(test);
 
 	player = new Player();
 	player->setTileMap(tileMap);
 
 	Enemy* enemy = new Enemy();
 	enemy->setPos(Vector3(0, -enemy->getHitBox()->yMin, -5));
-//	enemy->setPos(Vector3(-7, 0.5-enemy->getHitBox()->yMin, -5));
-//	enemy->setVel(Vector3(1, 0, 0));
+	enemy->setPos(Vector3(-7, 0.5-enemy->getHitBox()->yMin, -5));
+	enemy->setVel(Vector3(1, 0, 0));
 	entities.push_back(enemy);
 }
 
