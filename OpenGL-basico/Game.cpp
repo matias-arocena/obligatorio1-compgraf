@@ -134,6 +134,7 @@ void Game::checkEvents()
 		}
 
 		Game::inst()._state->onEvent(evento);
+		Game::inst().cam->onEvent(evento);
 	}
 	//FIN MANEJO DE EVENTOS
 };

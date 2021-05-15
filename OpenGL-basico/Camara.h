@@ -14,5 +14,5 @@ class Camara : public GameObject
 		const int ISOMETRIC = 0;
 		const int FOLLOW = 1;
 		GameObject *objectToFollow;
-		Vector3 offSet = Vector3(-15.0f, -15.0f, -15.0f);
+		Vector3 offSet = Vector3(-5.0f, -5.0f, -5.0f);
 };

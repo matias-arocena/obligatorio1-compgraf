@@ -7,9 +7,6 @@
 
 using namespace std;
 
-//Camara::Camara()
-//{ }
-
 GameObject* Camara::getObjectToFollow() { return objectToFollow; }
 
 void Camara::setObjectToFollow(GameObject* player) {
@@ -19,7 +16,13 @@ void Camara::setObjectToFollow(GameObject* player) {
 
 void Camara::update()
 {
-	//cout << "Camara coso";
+	if (state == ISOMETRIC) {
+		offSet = Vector3(-20, -20, -20);
+	}
+	if (state == FOLLOW) {
+		offSet = Vector3(-0 * cos(getRot().y) - (-10 * sin(getRot().y) ), -0.5, -0 * sin(getRot().y) + (-10) * cos(getRot().y));
+	}
+
 	float x_focus = 0;
 	float y_focus = 0;
 	float z_focus = 0;
@@ -31,26 +34,11 @@ void Camara::update()
 		setPos(Vector3(objectToFollow->getPos().x, 0.0f, objectToFollow->getPos().z));
 	}	
 
-	//cout << getPos().x;
-	//cout << getPos().y;
-	//cout << getPos().z << endl;
-
-	//cout << x_focus;
-	//cout << z_focus << endl;
-
-	cout << getPos().x;
-	cout << getPos().y;
-	cout << getPos().z << endl;
-
-	//GameObject::update();
-
 	float input_x = getPos().x - offSet.x;
 	float input_y = getPos().y - offSet.y;
 	float input_z = getPos().z - offSet.z;
 
-	if (input_x + offSet.x != x_focus) {
-		cout << "kill me" << input_x + offSet.x - x_focus << endl;
-	}
+	cout << "Posicion Camara" << input_x << " " << input_z << endl;
 
 	gluLookAt(input_x , input_y, input_z, x_focus, 0, z_focus, 0, 1, 0);
 }
@@ -66,26 +54,10 @@ void Camara::onEvent(SDL_Event aEvent)
 
 	case SDL_KEYUP:
 
-		// cout << "Key Up" << endl;
-
 		switch (aEvent.key.keysym.sym)
 		{
 		case SDLK_v:
 			state = (state + 1) % 2;
-
-			if (state == ISOMETRIC) {
-				offSet = Vector3(-20, -20, -20);
-
-			}
-			if (state == FOLLOW) {
-				//Calculo de rotacion
-				// newX = x cos(angulo) - y sen(angulo)
-				// newY = y sen(angulo) + x cos(angulo)
-				// 
-				//offSet = Vector3(getPos().x * cos(getRot().y) - getPos().z * sin(getRot().y) - 25, -25, getPos().z * sin(getRot().y) + getPos().z * cos(getRot().y) - 25);		
-			}
-
-
 			break;
 		}
 		break;
