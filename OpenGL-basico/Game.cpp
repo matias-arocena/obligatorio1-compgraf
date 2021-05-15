@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 
 	cout << "post create game" << endl;
 	Game::inst().setState(new LevelState());
-	Camara * cam = new Camara();
+	//Camara * cam = new Camara();
 	//Game::inst().setState(new CollisionTestState());
 
 	cout << "pre begin loop";
@@ -69,6 +69,10 @@ int main(int argc, char* argv[])
 	//LOOP PRINCIPAL
 	do 
 	{
+		Game::inst().checkEvents();
+
+		Game::inst()._state->update();
+		
 		LAST = NOW;
 		NOW = SDL_GetPerformanceCounter();
 		Game::inst().deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
@@ -87,9 +91,6 @@ int main(int argc, char* argv[])
 		
 		//DIBUJAR OBJETOS
 		
-		Game::inst().checkEvents();
-
-		Game::inst()._state->update();
 		Game::inst()._state->render();
 		
 		//FIN DIBUJAR OBJETOS

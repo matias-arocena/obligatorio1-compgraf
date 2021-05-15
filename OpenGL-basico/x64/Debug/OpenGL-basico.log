@@ -1,11 +1,2 @@
-﻿  Game.cpp
-  GameObject.cpp
-  LevelState.cpp
-  Model.cpp
-  Player.cpp
-  Generating Code...
-GameObject.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Camara::update(void)" (?update@Camara@@UEAAXXZ)
-Game.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Camara::update(void)" (?update@Camara@@UEAAXXZ)
-LevelState.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Camara::update(void)" (?update@Camara@@UEAAXXZ)
-LevelState.obj : error LNK2019: unresolved external symbol "public: void __cdecl Camara::setObjectToFollow(class GameObject)" (?setObjectToFollow@Camara@@QEAAXVGameObject@@@Z) referenced in function "public: virtual void __cdecl LevelState::init(void)" (?init@LevelState@@UEAAXXZ)
-C:\Users\mandr\Documents\obligatorio1-compgraf\x64\Debug\OpenGL-basico.exe : fatal error LNK1120: 2 unresolved externals
+﻿  Camara.cpp
+  OpenGL-basico.vcxproj -> C:\Users\mandr\Documents\obligatorio1-compgraf\x64\Debug\OpenGL-basico.exe
