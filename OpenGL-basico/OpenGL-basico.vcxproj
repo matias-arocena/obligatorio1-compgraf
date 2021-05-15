@@ -125,6 +125,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="MovementTestState.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
@@ -136,6 +137,7 @@
     <ClInclude Include="LevelState.h" />
     <ClInclude Include="MovementTestState.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Vector3.h" />

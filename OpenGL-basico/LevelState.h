@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "Tile.h"
+#include "Skybox.h"
 
 class LevelState : public GameState
 {
@@ -14,6 +15,7 @@ class LevelState : public GameState
 		void update();
 		void render();
 		void destroy();
+		Player* getPlayer();
 
 	private:
 		bool isPaused = false;
@@ -23,6 +25,7 @@ class LevelState : public GameState
 		bool showHitbox = false;
 
 		Player* player;
+		Skybox* skybox;
 		vector<GameObject*> entities;
 		vector<vector<Tile*>> tileMap;
 		void loadLevel(vector<vector<int>> aMap);

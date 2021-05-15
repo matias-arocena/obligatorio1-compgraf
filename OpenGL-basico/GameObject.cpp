@@ -214,10 +214,7 @@ void GameObject::initMaterials(const aiScene* scene, const std::string& filename
                 this->hasTexture = true;
                 materials[i].hasTexture = true;
                 materials[i].texture = new Texture(FullPath.c_str());
-
-                if (!materials[i].texture->load()) {
-                    materials[i].texture = nullptr;
-                }
+                materials[i].texture->load();
             }
         }
         else {

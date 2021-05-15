@@ -10,6 +10,7 @@ LevelState::LevelState()
 
 void LevelState::init()
 {
+	skybox = new Skybox(this);
 
 	vector<vector<int>> test =
 	{
@@ -26,7 +27,6 @@ void LevelState::init()
 	player->setTileMap(tileMap);
 
 	Enemy* enemy = new Enemy();
-	enemy->setPos(Vector3(0, -enemy->getHitBox()->yMin, -5));
 	enemy->setPos(Vector3(-7, 0.5-enemy->getHitBox()->yMin, -5));
 	enemy->setVel(Vector3(1, 0, 0));
 	entities.push_back(enemy);
@@ -122,10 +122,14 @@ void LevelState::update()
 
 		cout << score << endl;
 	}
+
+	skybox->update();
 }
 
 void LevelState::render()
 {
+	skybox->render();
+	glEnable(GL_LIGHTING);
 	if (updateWireframe) {
 		glPolygonMode(GL_FRONT_AND_BACK, showWireframe ? GL_LINE : GL_FILL);
 		updateWireframe = false;
@@ -146,6 +150,7 @@ void LevelState::render()
 		e->render();
 	}
 	player->render();
+	glDisable(GL_LIGHTING);
 }
 
 void LevelState::destroy()
@@ -162,6 +167,11 @@ void LevelState::destroy()
 	}
 
 	player->destroy();
+}
+
+Player* LevelState::getPlayer()
+{
+	return player;
 }
 
 void LevelState::loadLevel(vector<vector<int>> aMap)
