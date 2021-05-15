@@ -52,8 +52,7 @@ int main(int argc, char* argv[])
 	float degrees = 0;
 
 	bool rotate = false;
-
-	GLfloat luz_posicion[4] = { 0, 2, 2, 1 };
+	GLfloat luz_posicion[4] = { -20, 10, 0, 1 };
 	GLfloat diffuseLight[4] = { 1, 1, 1, 1 };
 	GLfloat ambientLight[4] = { 0.3, 0.3, 0.3, 0.3 };
 	//FIN INICIALIZACION
@@ -78,7 +77,7 @@ int main(int argc, char* argv[])
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		Game::inst().cam->update();
-		
+		luz_posicion[2] = Game::inst().getCamara()->getPos().z;
 		//PRENDO LA LUZ (SIEMPRE DESPUES DEL gluLookAt)
 		glEnable(GL_LIGHT0); // habilita la luz 0
 		glLightfv(GL_LIGHT0, GL_POSITION, luz_posicion);

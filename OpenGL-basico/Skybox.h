@@ -10,5 +10,6 @@ class Skybox :
 public:
     Skybox(LevelState* level);
     void update();
+    void render();
 };
 
