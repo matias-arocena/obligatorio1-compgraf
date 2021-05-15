@@ -2,6 +2,9 @@
 #include "GameObject.h"
 #include <vector>
 #include "Tile.h"
+#include "SDL.h"
+
+using namespace std;
 
 class Player : public GameObject
 {

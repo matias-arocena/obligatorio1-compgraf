@@ -9,6 +9,7 @@
 #include "LevelState.h"
 //#include "MovementTestState.h"
 #include "Game.h"
+#include "Camara.h"
 
 using namespace std;
 
@@ -66,13 +67,17 @@ int main(int argc, char* argv[])
 	//LOOP PRINCIPAL
 	do 
 	{
+		Game::inst().checkEvents();
+
+		Game::inst()._state->update();
+		
 		LAST = NOW;
 		NOW = SDL_GetPerformanceCounter();
 		Game::inst().deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
-		gluLookAt(x, y, z, x, 0, 0, 0, 1, 0);
+		Game::inst().cam->update();
 		
 		//PRENDO LA LUZ (SIEMPRE DESPUES DEL gluLookAt)
 		glEnable(GL_LIGHT0); // habilita la luz 0
@@ -84,9 +89,6 @@ int main(int argc, char* argv[])
 		
 		//DIBUJAR OBJETOS
 		
-		Game::inst().checkEvents();
-
-		Game::inst()._state->update();
 		Game::inst()._state->render();
 		
 		//FIN DIBUJAR OBJETOS
@@ -120,18 +122,22 @@ void Game::checkEvents()
 	{
 		switch (evento.type)
 		{
-			case SDL_KEYDOWN:
-				// cout << "Key Down" << endl;
-				switch (evento.key.keysym.sym)
-				{
-				case SDLK_q:
-					_fin = true;
-					break;
-				}
+		case SDL_KEYDOWN:
+			// cout << "Key Down" << endl;
+			switch (evento.key.keysym.sym)
+			{
+			case SDLK_q:
+				_fin = true;
 				break;
+			}
+			break;
 		}
 
 		Game::inst()._state->onEvent(evento);
 	}
 	//FIN MANEJO DE EVENTOS
+};
+
+Camara * Game::getCamara() {
+	return cam;
 }

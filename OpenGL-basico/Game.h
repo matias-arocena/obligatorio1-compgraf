@@ -1,9 +1,11 @@
 #pragma once
 #include "GameState.h"
+#include "Camara.h"
 
 class Game
 {
 	public:
+		Camara* cam;
 		static Game& inst()
 		{
 			static Game instance;
@@ -25,8 +27,11 @@ class Game
 		
 		void checkEvents();
 
+		Camara * getCamara();
+
 	private:
 		Game() 
 		{
+			cam = new Camara();
 		};
 };

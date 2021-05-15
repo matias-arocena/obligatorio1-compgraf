@@ -4,6 +4,7 @@
 class Camara : public GameObject 
 {
 	public:
+		/*Camara();*/
 		void update();
 		void onEvent(SDL_Event aEvent);
 		GameObject* getObjectToFollow();
@@ -13,5 +14,5 @@ class Camara : public GameObject
 		const int ISOMETRIC = 0;
 		const int FOLLOW = 1;
 		GameObject *objectToFollow;
-		Vector3 offSet = (0, 0, 0);
+		Vector3 offSet = Vector3(-15.0f, -15.0f, -15.0f);
 };

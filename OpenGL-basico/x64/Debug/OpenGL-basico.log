@@ -1,11 +1,88 @@
 ﻿  Enemy.cpp
-  Game.cpp
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(5,1): error C2504: 'GameObject': base class undefined
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,34): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(11,26): error C2061: syntax error: identifier 'GameObject'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,29): error C2238: unexpected token(s) preceding ';'
+  Camara.cpp
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Game.h(8,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Game.h(8,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Game.h(8,14): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Game.h(30,10): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Game.h(30,10): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Game.h(30,23): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Game.h(35,4): error C2065: 'cam': undeclared identifier
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Game.h(35,14): error C2061: syntax error: identifier 'Camara'
   GameObject.cpp
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(5,1): error C2504: 'GameObject': base class undefined
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,34): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(11,26): error C2061: syntax error: identifier 'GameObject'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,29): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\GameObject.cpp(325,1): error C2084: function 'void GameObject::update(void)' already has a body
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\GameObject.cpp(21): message : see previous definition of 'update'
+  Game.cpp
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(5,1): error C2504: 'GameObject': base class undefined
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,34): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(11,26): error C2061: syntax error: identifier 'GameObject'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,29): error C2238: unexpected token(s) preceding ';'
   LevelState.cpp
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(5,1): error C2504: 'GameObject': base class undefined
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,34): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(11,26): error C2061: syntax error: identifier 'GameObject'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,29): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\LevelState.cpp(57,44): error C2660: 'Camara::setObjectToFollow': function does not take 1 arguments
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(11,8): message : see declaration of 'Camara::setObjectToFollow'
+  GameState.cpp
   MovementTestState.cpp
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(5,1): error C2504: 'GameObject': base class undefined
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,34): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(11,26): error C2061: syntax error: identifier 'GameObject'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,29): error C2238: unexpected token(s) preceding ';'
   Player.cpp
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(5,1): error C2504: 'GameObject': base class undefined
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,34): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(11,26): error C2061: syntax error: identifier 'GameObject'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,29): error C2238: unexpected token(s) preceding ';'
   Skybox.cpp
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(5,1): error C2504: 'GameObject': base class undefined
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,34): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(11,26): error C2061: syntax error: identifier 'GameObject'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,29): error C2238: unexpected token(s) preceding ';'
   Texture.cpp
   Tile.cpp
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(5,1): error C2504: 'GameObject': base class undefined
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(10,34): error C2238: unexpected token(s) preceding ';'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(11,26): error C2061: syntax error: identifier 'GameObject'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C2143: syntax error: missing ';' before '*'
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\mandr\Documents\obligatorio1-compgraf\OpenGL-basico\Camara.h(16,29): error C2238: unexpected token(s) preceding ';'
   Generating Code...
-  OpenGL-basico.vcxproj -> C:\Users\Matias\Projects\obligatorio1-compgraf\x64\Debug\OpenGL-basico.exe

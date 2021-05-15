@@ -20,8 +20,7 @@ Player::Player()
 
 void Player::update()
 {
-	volatile float posY = getPos().y + getHitBox()->xMin;
-	if (getPos().y + getHitBox()->xMin <= 0 && curTileWalkable())
+	if (getPos().y <= 0 && curTileWalkable())
 	{
 		setVel(Vector3(getVel().x, 10, getVel().z));
 	}
@@ -109,6 +108,12 @@ void Player::onEvent(SDL_Event aEvent)
 			pressedButtons[RIGHT] = false;
 			break;
 		}
+		case SDLK_a:
+			setRot( (getRot().x, getRot().y + 1, getRot().z) );
+			break;
+		case SDLK_d:
+			setRot((getRot().x, getRot().y - 1, getRot().z));
+			break;
 
 		updateVel();
 

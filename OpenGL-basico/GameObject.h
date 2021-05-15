@@ -41,6 +41,8 @@ private:
 
 
 
+class Game;
+
 class GameObject
 {
 	public:
@@ -59,6 +61,15 @@ class GameObject
 		virtual void destroy() {}
 
 		void loadModel(const std::string& filename, bool flipNormals = false, bool showTexture = true);
+		Vector3 getRot()
+		{
+			return rot;
+		}
+
+		void setRot(Vector3 aVector)
+		{
+			rot = aVector;
+		}
 
 		Vector3 getPos()
 		{

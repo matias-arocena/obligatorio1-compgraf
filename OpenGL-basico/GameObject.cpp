@@ -3,6 +3,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
+#include "Game.h"
 #include <iostream>
 
 GameObject::~GameObject()
@@ -318,6 +319,12 @@ void GameObject::setShowHitbox(bool showHitbox)
 void GameObject::setCurrentCollisions(std::vector<GameObject*> collisions)
 {
     currentCollisions = collisions;
+}
+
+void GameObject::update()
+{
+    vel += accel * Game::inst().getDeltaTime();
+    pos += vel * Game::inst().getDeltaTime();
 }
 
 void GameObject::doScale(Vector3 scale)
