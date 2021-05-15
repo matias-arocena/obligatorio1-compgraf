@@ -321,12 +321,6 @@ void GameObject::setCurrentCollisions(std::vector<GameObject*> collisions)
     currentCollisions = collisions;
 }
 
-void GameObject::update()
-{
-    vel += accel * Game::inst().getDeltaTime();
-    pos += vel * Game::inst().getDeltaTime();
-}
-
 void GameObject::doScale(Vector3 scale)
 {
     this->scale = scale;

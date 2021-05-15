@@ -1,6 +1,5 @@
 #pragma once
 #include "Vector3.h"
-#include "Game.h"
 #include "Texture.h"
 
 #include <vector>
