@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "Camara.h"
 #include <gl/GLU.h>
+#include "Game.h"
 
 using namespace std;
 
@@ -16,11 +17,10 @@ void Camara::setObjectToFollow(GameObject* player) {
 
 void Camara::update()
 {
+	if (Game::inst().isPaused) { return; }
+
 	if (state == ISOMETRIC) {
-		offSet = Vector3(-20, -20, -20);
-	}
-	if (state == FOLLOW) {
-		offSet = Vector3(-0 * cos(getRot().y) - (-10 * sin(getRot().y) ), -0.5, -0 * sin(getRot().y) + (-10) * cos(getRot().y));
+		offSet = Vector3(-10, -10, -10);
 	}
 
 	float x_focus = 0;
@@ -32,13 +32,22 @@ void Camara::update()
 		z_focus = objectToFollow->getPos().z;
 
 		setPos(Vector3(objectToFollow->getPos().x, 0.0f, objectToFollow->getPos().z));
+
+		if (state == FOLLOW) {
+			offSet = Vector3(0 * cos(objectToFollow->getRot().y) + (-10 * sin(objectToFollow->getRot().y)),-0.5, -0 * sin(objectToFollow->getRot().y) + (-10) * cos(objectToFollow->getRot().y));
+		
+			cout << endl << "offset X " << offSet.x << endl << "offset Z " << offSet.z << endl << "angulo " << getRot().y;
+			/*
+			float x = vertex.x * cos(rot.y) + vertex.z * sin(rot.y);
+			float z = vertex.z * cos(rot.y) - vertex.x * sin(rot.y);
+		*/
+		}
 	}	
 
 	float input_x = getPos().x - offSet.x;
 	float input_y = getPos().y - offSet.y;
 	float input_z = getPos().z - offSet.z;
 
-	cout << "Posicion Camara" << input_x << " " << input_z << endl;
 
 	gluLookAt(input_x , input_y, input_z, x_focus, 0, z_focus, 0, 1, 0);
 }

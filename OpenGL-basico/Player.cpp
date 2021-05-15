@@ -108,19 +108,21 @@ void Player::onEvent(SDL_Event aEvent)
 			pressedButtons[RIGHT] = false;
 			break;
 		}
-		case SDLK_a:
-			setRot( (getRot().x, getRot().y + 1, getRot().z) );
-			break;
-		case SDLK_d:
-			setRot((getRot().x, getRot().y - 1, getRot().z));
-			break;
 
 		updateVel();
 
 		// cout << endl;
 
 		break;
+	case SDL_MOUSEMOTION:
+		//if (Game::inst().cam->state != Game::inst().cam->ISOMETRIC) {
+			doRotate(Vector3(getRot().x, getRot().y + aEvent.motion.xrel * ROTATESPEED, getRot().z));
+		//};
+		
+		break;
+	
 	}
+
 }
 
 void Player::setTileMap(vector<vector<Tile*>> aMap)

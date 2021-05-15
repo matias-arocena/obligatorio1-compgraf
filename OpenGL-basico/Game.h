@@ -29,6 +29,8 @@ class Game
 
 		Camara * getCamara();
 
+		bool isPaused = false;
+
 	private:
 		Game() 
 		{

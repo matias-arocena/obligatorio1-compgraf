@@ -60,7 +60,7 @@ void LevelState::onEvent(SDL_Event aEvent)
 			switch (aEvent.key.keysym.sym)
 			{
 				case SDLK_p:
-					isPaused = !isPaused;
+					Game::inst().isPaused = !Game::inst().isPaused;
 					break;
 				case SDLK_w:
 					showWireframe = !showWireframe;
@@ -113,7 +113,7 @@ void LevelState::onEvent(SDL_Event aEvent)
 
 void LevelState::update()
 {
-	if (isPaused) return;
+	if (Game::inst().isPaused) return;
 
 	for (int j = 0; j < tileMap.size(); j++)
 	{

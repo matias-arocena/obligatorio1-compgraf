@@ -18,7 +18,6 @@ class LevelState : public GameState
 		Player* getPlayer();
 
 	private:
-		bool isPaused = false;
 		bool showWireframe = false;
 		bool updateWireframe = false;
 		bool showTexture = true;
