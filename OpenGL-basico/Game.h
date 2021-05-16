@@ -30,8 +30,9 @@ class Game
 		Camara * getCamara();
 
 		bool isPaused = false;
-
+		float gameVelocity = 1.0f;
 	private:
+
 		Game() 
 		{
 			cam = new Camara();

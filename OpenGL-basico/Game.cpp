@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
 		
 		LAST = NOW;
 		NOW = SDL_GetPerformanceCounter();
-		Game::inst().deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
+		Game::inst().deltaTime = Game::inst().gameVelocity * (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		glLoadIdentity();
@@ -130,6 +130,16 @@ void Game::checkEvents()
 			{
 			case SDLK_q:
 				_fin = true;
+				break;
+			case SDLK_PERIOD:
+				gameVelocity += 0.1f;
+				break;
+			case SDLK_COMMA:
+				if(gameVelocity > 0.1f) 
+					gameVelocity -= 0.2f;
+				break;
+			case SDLK_0:
+				gameVelocity = 1.0f;
 				break;
 			}
 			break;
