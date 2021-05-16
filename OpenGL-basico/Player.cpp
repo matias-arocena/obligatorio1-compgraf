@@ -22,6 +22,11 @@ Player::Player()
 
 void Player::update()
 {
+	if (Game::inst().getCamara()->state == Game::inst().getCamara()->ISOMETRIC && getRot().y != 0)
+	{
+		setRot(Vector3(0, 0, 0));
+	}
+
 	if (getPos().y <= 0 && curTileWalkable())
 	{
 		setVel(Vector3(getVel().x, 10, getVel().z));
