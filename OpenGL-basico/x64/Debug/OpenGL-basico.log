@@ -1,14 +1,3 @@
-﻿  mainExample.cpp
-  Enemy.cpp
-  Camara.cpp
-  GameObject.cpp
-  Game.cpp
-  LevelState.cpp
-  GameState.cpp
-  MovementTestState.cpp
-  Player.cpp
-  Skybox.cpp
-  Texture.cpp
-  Tile.cpp
-  Generating Code...
-  OpenGL-basico.vcxproj -> C:\Users\Matias\Projects\obligatorio1-compgraf\x64\Debug\OpenGL-basico.exe
+﻿  Player.cpp
+  LINK : C:\Users\Batovi_54\Desktop\Gonzalo\obligatorio1-compgraf\obligatorio1-compgraf\x64\Debug\OpenGL-basico.exe not found or not built by the last incremental link; performing full link
+  OpenGL-basico.vcxproj -> C:\Users\Batovi_54\Desktop\Gonzalo\obligatorio1-compgraf\obligatorio1-compgraf\x64\Debug\OpenGL-basico.exe

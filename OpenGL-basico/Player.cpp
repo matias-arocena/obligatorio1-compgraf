@@ -9,12 +9,14 @@
 #include "Game.h"
 #include "Enemy.h"
 
+using namespace std;
+
 Player::Player()
 {
 	loadModel("../assets/player.obj");
 	doScale(Vector3(1, 1, 1));
 	scaleHitbox(Vector3(0.8, 0.8, 0.8));
-	doRotate(Vector3(0, 45, 0));
+	//doRotate(Vector3(0, 45, 0));
 	setAccel(Vector3(0,-20,0));
 }
 
@@ -39,6 +41,7 @@ void Player::render()
 {
 	glPushMatrix();
 	glTranslatef(getPos().x, getPos().y, getPos().z);
+	glRotatef(180, 0, 1, 0);
 	GameObject::render();
 	glPopMatrix();
 }
@@ -169,7 +172,10 @@ void Player::updateVel()
 		dir.x += 1;
 	}
 
-	setVel(dir * SPEED + Vector3(0, getVel().y, 0));
+	float angle = getRot().y * M_PI / 180;
+	Vector3 angledDir = Vector3(dir.x * cos(angle) + dir.z * sin(angle), 0, -dir.x * sin(angle) + dir.z * cos(angle));
+
+	setVel(angledDir * SPEED + Vector3(0, getVel().y, 0));
 }
 
 bool Player::curTileWalkable()
