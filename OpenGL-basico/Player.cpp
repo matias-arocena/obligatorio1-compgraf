@@ -9,6 +9,8 @@
 #include "Game.h"
 #include "Enemy.h"
 
+using namespace std;
+
 Player::Player()
 {
 	loadModel("../assets/player.obj");
@@ -19,6 +21,11 @@ Player::Player()
 
 void Player::update()
 {
+	if (Game::inst().getCamara()->state == Game::inst().getCamara()->ISOMETRIC && getRot().y != 0)
+	{
+		setRot(Vector3(0, 0, 0));
+	}
+
 	if (getPos().y <= 0 && curTileWalkable())
 	{
 		setVel(Vector3(getVel().x, 10, getVel().z));
@@ -38,6 +45,7 @@ void Player::render()
 {
 	glPushMatrix();
 	glTranslatef(getPos().x, getPos().y, getPos().z);
+	glRotatef(180, 0, 1, 0);
 	GameObject::render();
 	glPopMatrix();
 }
@@ -168,7 +176,10 @@ void Player::updateVel()
 		dir.x += 1;
 	}
 
-	setVel(dir * SPEED + Vector3(0, getVel().y, 0));
+	float angle = getRot().y * M_PI / 180;
+	Vector3 angledDir = Vector3(dir.x * cos(angle) + dir.z * sin(angle), 0, -dir.x * sin(angle) + dir.z * cos(angle));
+
+	setVel(angledDir * SPEED + Vector3(0, getVel().y, 0));
 }
 
 bool Player::curTileWalkable()
