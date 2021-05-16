@@ -52,9 +52,10 @@ int main(int argc, char* argv[])
 	float degrees = 0;
 
 	bool rotate = false;
-	GLfloat luz_posicion[4] = { -20, 10, 0, 1 };
+	GLfloat luz_posicion[4] = { -30, 15, 0, 1 };
 	GLfloat diffuseLight[4] = { 1, 1, 1, 1 };
-	GLfloat ambientLight[4] = { 0.3, 0.3, 0.3, 0.3 };
+	GLfloat ambientLight[4] = { 0.1, 0.1, 0.1, 0.1 };
+	float fogColor[4] = { 0.7, 0.7, 0.7 };
 	//FIN INICIALIZACION
 	bool textOn = true;
 
@@ -74,8 +75,17 @@ int main(int argc, char* argv[])
 		NOW = SDL_GetPerformanceCounter();
 		Game::inst().deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		glLoadIdentity();
+		glEnable(GL_NORMALIZE);
+		glEnable(GL_FOG);
+		glFogfv(GL_FOG_COLOR, fogColor);
+		glFogi(GL_FOG_MODE, GL_LINEAR);
+		glFogf(GL_FOG_START, 20.f);
+		glFogf(GL_FOG_END, 40.f);
+		glFogf(GL_FOG_DENSITY, 1.f);
+
+
 		Game::inst().cam->update();
 		luz_posicion[2] = Game::inst().getCamara()->getPos().z;
 		//PRENDO LA LUZ (SIEMPRE DESPUES DEL gluLookAt)

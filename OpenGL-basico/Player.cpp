@@ -14,7 +14,6 @@ Player::Player()
 	loadModel("../assets/player.obj");
 	doScale(Vector3(1, 1, 1));
 	scaleHitbox(Vector3(0.8, 0.8, 0.8));
-	doRotate(Vector3(0, 45, 0));
 	setAccel(Vector3(0,-20,0));
 }
 

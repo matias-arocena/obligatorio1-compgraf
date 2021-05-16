@@ -28,6 +28,7 @@ class LevelState : public GameState
 		vector<GameObject*> entities;
 		vector<vector<Tile*>> tileMap;
 		void loadLevel(vector<vector<int>> aMap);
+		void spawnEnemies(vector<vector<int>> enemies);
 		int score = 0;
 		int maxPlayerY = 0;
 };

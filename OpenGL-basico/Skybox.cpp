@@ -4,7 +4,7 @@
 Skybox::Skybox(LevelState* level) : level { level }
 {
 	loadModel("../assets/skybox/skybox.obj");
-	doScale(Vector3(1, 1, 1) * 40);
+	doScale(Vector3(1, 1, 1) * 30);
 }
 
 void Skybox::update()
