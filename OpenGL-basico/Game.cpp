@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 	gluPerspective(45, 640 / 480.f, 0.1, 100);
 	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_MODELVIEW);
-
+	
 	cout << "post create game" << endl;
 	Game::inst().setState(new LevelState());
 
@@ -55,7 +55,6 @@ int main(int argc, char* argv[])
 	GLfloat luz_posicion[4] = { -30, 15, 0, 1 };
 	GLfloat diffuseLight[4] = { 1, 1, 1, 1 };
 	GLfloat ambientLight[4] = { 0.1, 0.1, 0.1, 0.1 };
-	float fogColor[4] = { 0.7, 0.7, 0.7 };
 	//FIN INICIALIZACION
 	bool textOn = true;
 
@@ -78,13 +77,7 @@ int main(int argc, char* argv[])
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		glLoadIdentity();
 		glEnable(GL_NORMALIZE);
-		glEnable(GL_FOG);
-		glFogfv(GL_FOG_COLOR, fogColor);
-		glFogi(GL_FOG_MODE, GL_LINEAR);
-		glFogf(GL_FOG_START, 20.f);
-		glFogf(GL_FOG_END, 40.f);
-		glFogf(GL_FOG_DENSITY, 1.f);
-
+		
 
 		Game::inst().cam->update();
 		luz_posicion[2] = Game::inst().getCamara()->getPos().z;

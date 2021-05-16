@@ -8,8 +8,9 @@ class Skybox :
 {
     LevelState* level;
 public:
-    Skybox(LevelState* level);
+    Skybox(int rows, LevelState* level);
     void update();
     void render();
+    bool isInside(GameObject* entity);
 };
 

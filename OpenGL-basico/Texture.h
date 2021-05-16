@@ -2,6 +2,7 @@
 #include <string>
 #include <SDL_opengl.h>
 #include <vector>
+#include <map>
 
 struct Image {
     void* data;
@@ -10,6 +11,7 @@ struct Image {
 
 class Texture
 {
+    static std::map<std::string, GLuint> cache;
     std::string filename;
     GLuint textureId;
     Image loadImage(std::string file);

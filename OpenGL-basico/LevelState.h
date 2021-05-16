@@ -22,6 +22,7 @@ class LevelState : public GameState
 		bool updateWireframe = false;
 		bool showTexture = true;
 		bool showHitbox = false;
+		bool showLight = true;
 
 		Player* player;
 		Skybox* skybox;
@@ -29,6 +30,7 @@ class LevelState : public GameState
 		vector<vector<Tile*>> tileMap;
 		void loadLevel(vector<vector<int>> aMap);
 		void spawnEnemies(vector<vector<int>> enemies);
+		void showFog();
 		int score = 0;
 		int maxPlayerY = 0;
 };

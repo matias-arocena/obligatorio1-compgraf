@@ -12,58 +12,58 @@ LevelState::LevelState()
 void LevelState::init()
 {
 
-	skybox = new Skybox(this);
+	skybox = new Skybox(10, this);
 
 	vector<vector<int>> test =
 	{
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},		
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1},
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-
 	};
 
 	vector<vector<int>> spawn =
 	{
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,2,0,0,0,2,2,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,2,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,1,1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,1,0,0,0,1,0,1,1,0,0,0,0,1,0,0,1,1,1,0,0,0,1,1,0,0,0,0,1,1,1},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{2,0,0,2,2,2,0,0,0,2,0,2,0,0,0,2,0,0,2,2,2,0,0,2,0,0,2,2,0,0,2,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{1,1,0,0,1,0,1,1,0,0,1,1,1,1,0,0,0,0,1,0,0,1,1,1,0,0,1,0,0,0,1,0},
-		{0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{2,0,2,0,0,2,0,0,2,2,2,2,2,0,0,2,0,0,2,0,2,0,2,2,0,0,0,2,0,0,2,0},
-		{1,1,0,0,1,0,1,1,0,0,1,1,1,1,0,0,0,0,1,0,0,1,1,1,0,0,1,0,0,0,1,0},
-		{2,0,0,2,2,2,0,0,0,2,0,2,0,0,0,2,0,0,2,2,2,0,0,2,0,0,2,2,0,0,2,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+		{2, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 2},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0},
+		{0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0},
+		{0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 2, 0, 0, 2, 2, 0, 0, 2, 2, 2},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 2, 0, 0, 2, 0, 0, 0, 2, 2},
+		{0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0},
+		{0, 2, 2, 0, 0, 0, 2, 0, 2, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	};
+
 
 	loadLevel(test);
 	spawnEnemies(spawn);
@@ -89,6 +89,9 @@ void LevelState::onEvent(SDL_Event aEvent)
 				case SDLK_w:
 					showWireframe = !showWireframe;
 					updateWireframe = true;
+					break;
+				case SDLK_l:
+					showLight = !showLight;
 					break;
 				case SDLK_t:
 					showTexture = !showTexture;
@@ -172,7 +175,14 @@ void LevelState::update()
 void LevelState::render()
 {
 	skybox->render();
-	glEnable(GL_LIGHTING);
+	if (showLight) {
+		glEnable(GL_LIGHTING);
+		showFog();
+	}
+	else {
+		glDisable(GL_FOG);
+	}
+
 	if (updateWireframe) {
 		glPolygonMode(GL_FRONT_AND_BACK, showWireframe ? GL_LINE : GL_FILL);
 		updateWireframe = false;
@@ -182,7 +192,7 @@ void LevelState::render()
 	{
 		for (int i = 0; i < tileMap[j].size(); i++)
 		{
-			if (tileMap[j][i] != NULL)
+			if (tileMap[j][i] != NULL && skybox->isInside(tileMap[j][i]))
 			{
 				tileMap[j][i]->render();
 			}
@@ -190,9 +200,11 @@ void LevelState::render()
 	}
 
 	for (auto& e : entities) {
-		e->render();
+		if (skybox->isInside(e))
+			e->render();
 	}
 	player->render();
+
 	glDisable(GL_LIGHTING);
 }
 
@@ -240,17 +252,38 @@ void LevelState::spawnEnemies(vector<vector<int>> enemies)
 {
 	srand(time(nullptr));
 	float maxVel = 20;
+	float boundary = enemies[0].size() * 2;
 
 	for (int i = 0; i < enemies.size(); i++){
 		for (int j = 0; j < enemies[i].size(); j++)
 		{
 			if (enemies[i][j] == 1)
 			{
-				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, true, i * (maxVel / enemies.size()),  j * 2));
+				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, true, i * (maxVel / enemies.size()),  j * 2, boundary));
 			}
 			else if (enemies[i][j] == 2) {
-				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, false, i * (maxVel / enemies.size()), j * 2));
+				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, false, i * (maxVel / enemies.size()), j * 2, boundary));
 			}
 		}
+	}
+}
+
+void LevelState::showFog() {
+	float fogColor[4] = { 0.7, 0.7, 0.7 };
+
+	glEnable(GL_FOG);
+	if (Game::inst().getCamara()->state == Game::inst().getCamara()->ISOMETRIC) {
+		glFogfv(GL_FOG_COLOR, fogColor);
+		glFogi(GL_FOG_MODE, GL_LINEAR);
+		glFogf(GL_FOG_START, 23.f);
+		glFogf(GL_FOG_END, 28.f);
+		glFogf(GL_FOG_DENSITY, 1.f);
+	}
+	else {
+		glFogfv(GL_FOG_COLOR, fogColor);
+		glFogi(GL_FOG_MODE, GL_LINEAR);
+		glFogf(GL_FOG_START, 15.f);
+		glFogf(GL_FOG_END, 20.f);
+		glFogf(GL_FOG_DENSITY, 1.f);
 	}
 }
