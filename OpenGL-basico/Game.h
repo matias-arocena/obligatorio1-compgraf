@@ -19,6 +19,7 @@ class Game
 		GameState* _state = NULL;
 		void setState(GameState*);
 
+		int seconds = 0;
 		double deltaTime = 0;
 		double getDeltaTime()
 		{

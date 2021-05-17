@@ -14,6 +14,11 @@
 
 using namespace std;
 
+Uint32 timer(Uint32 interval, void* param) {
+	Game::inst().seconds++;
+	return(interval);
+}
+
 int main(int argc, char* argv[]) 
 {
 	//INICIALIZACION
@@ -63,6 +68,8 @@ int main(int argc, char* argv[])
 
 	Uint64 NOW = SDL_GetPerformanceCounter();
 	Uint64 LAST = 0;
+
+	SDL_AddTimer(1000, timer, 0);
 
 	//LOOP PRINCIPAL
 	do 

@@ -7,7 +7,7 @@
 #include "Game.h"
 
 
-void drawHUD(int score) {
+void dibuHUD(int score, int seconds) {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
@@ -17,12 +17,19 @@ void drawHUD(int score) {
 	glPushMatrix();
 	glLoadIdentity();
 
-	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
 	glRasterPos2i(25, 450);
-	char out_string[1000];
-	sprintf_s(out_string, "%s%d", "Score: ", score);
-	const unsigned char* t = reinterpret_cast<const unsigned char*>(out_string);
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, t);
+	char score_string[1000];
+	sprintf_s(score_string, "%s%d", "Puntaje: ", score);
+	const unsigned char* ss = reinterpret_cast<const unsigned char*>(score_string);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, ss);
+
+	glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
+	glRasterPos2i(25, 430);
+	char time_string[1000];
+	sprintf_s(time_string, "%s%d", "Tiempo: ", seconds);
+	const unsigned char* ts = reinterpret_cast<const unsigned char*>(time_string);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, ts);
 
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
@@ -199,7 +206,7 @@ void LevelState::update()
 
 void LevelState::render()
 {
-	drawHUD(score);
+	dibuHUD(score, Game::inst().seconds);
 	skybox->render();
 	if (showLight) {
 		glEnable(GL_LIGHTING);
