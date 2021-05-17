@@ -10,10 +10,9 @@
 //#include "MovementTestState.h"
 #include "Game.h"
 #include "Camara.h"
+#include <GL/freeglut.h>
 
 using namespace std;
-
-
 
 int main(int argc, char* argv[]) 
 {
@@ -28,6 +27,8 @@ int main(int argc, char* argv[])
 		SDL_WINDOWPOS_CENTERED,
 		640, 480, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	SDL_GLContext context = SDL_GL_CreateContext(win);
+
+	glutInit(&argc, argv);
 
 	glMatrixMode(GL_PROJECTION);
 
@@ -92,6 +93,7 @@ int main(int argc, char* argv[])
 		//DIBUJAR OBJETOS
 		
 		Game::inst()._state->render();
+		//drawHUD();
 		
 		//FIN DIBUJAR OBJETOS
 

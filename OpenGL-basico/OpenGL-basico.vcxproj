@@ -63,8 +63,8 @@
     <LibraryPath>..\libs\FreeImage\lib;..\libs\assimp\lib;..\libs\SDL2-2.0.14\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\libs\SDL2-2.0.12\include;..\libs\FreeImage\include;..\libs\glew\include;..\libs\assimp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\libs\FreeImage\lib;..\libs\SDL2-2.0.12\lib\x64;..\libs\glew\lib;..\libs\assimp\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\libs\SDL2-2.0.12\include;..\libs\FreeImage\include;..\libs\glew\include;..\libs\assimp\include;..\libs\freeglut\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\libs\FreeImage\lib;..\libs\SDL2-2.0.12\lib\x64;..\libs\glew\lib;..\libs\assimp\lib;..\libs\freeglut\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>..\libs\SDL2-2.0.12\include;..\libs\FreeImage\include;..\libs\glew\include;..\libs\assimp\include;$(IncludePath)</IncludePath>
@@ -104,8 +104,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalLibraryDirectories>..\libs\glew\lib;..\libs\FreeImage\lib;..\libs\SDL2-2.0.12\lib\x64;..\libs\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;FreeImage.lib;opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\libs\glew\lib;..\libs\FreeImage\lib;..\libs\SDL2-2.0.12\lib\x64;..\libs\assimp\lib;..\libs\freeglut\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;FreeImage.lib;opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

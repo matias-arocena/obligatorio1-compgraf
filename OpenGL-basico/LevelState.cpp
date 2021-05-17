@@ -3,7 +3,32 @@
 #include "Enemy.h"
 
 #include <iostream>
+#include <GL/freeglut.h>
 #include "Game.h"
+
+
+void drawHUD(int score) {
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(0.0, 640, 1.0, 480);
+	glMatrixMode(GL_MODELVIEW);
+
+	glPushMatrix();
+	glLoadIdentity();
+
+	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	glRasterPos2i(25, 450);
+	char out_string[1000];
+	sprintf_s(out_string, "%s%d", "Score: ", score);
+	const unsigned char* t = reinterpret_cast<const unsigned char*>(out_string);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, t);
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
 
 LevelState::LevelState()
 {
@@ -174,6 +199,7 @@ void LevelState::update()
 
 void LevelState::render()
 {
+	drawHUD(score);
 	skybox->render();
 	if (showLight) {
 		glEnable(GL_LIGHTING);
