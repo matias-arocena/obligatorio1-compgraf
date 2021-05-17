@@ -7,6 +7,27 @@
 #include "Game.h"
 
 
+void printWithFG(char* imprimible, int pos, bool size_big, int color) {
+	switch (color) {
+	case 1: //black
+		glColor4f(0.0f, 0.0f, 0.0f, 0.0f);
+		break;
+	case 2: //
+		glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
+		break;
+	}
+	glRasterPos2i(25, pos);
+	char print_string[1000];
+	sprintf_s(print_string, imprimible);
+	const unsigned char* settings = reinterpret_cast<const unsigned char*>(print_string);
+	if (size_big) {
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, settings);
+	}
+	else {
+		glutBitmapString(GLUT_BITMAP_HELVETICA_12, settings);
+	}
+}
+
 void dibuHUD(int score, int seconds) {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -17,19 +38,23 @@ void dibuHUD(int score, int seconds) {
 	glPushMatrix();
 	glLoadIdentity();
 
-	glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
-	glRasterPos2i(25, 450);
 	char score_string[1000];
 	sprintf_s(score_string, "%s%d", "Puntaje: ", score);
-	const unsigned char* ss = reinterpret_cast<const unsigned char*>(score_string);
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, ss);
+	printWithFG(score_string, 450, true, 2);
 
-	glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
-	glRasterPos2i(25, 430);
 	char time_string[1000];
 	sprintf_s(time_string, "%s%d", "Tiempo: ", seconds);
-	const unsigned char* ts = reinterpret_cast<const unsigned char*>(time_string);
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, ts);
+	printWithFG(time_string, 430, true, 2);
+
+	printWithFG("Settings: ", 100, false, 1);
+	printWithFG("Pausa -> p", 90, false, 1);
+	printWithFG("Salir -> q", 80, false, 1);
+	printWithFG("Toggle wireframe -> w", 70, false, 1);
+	printWithFG("Toggle luz -> l", 60, false, 1);
+	printWithFG("Toggle textura -> t", 50, false, 1);
+	printWithFG("Toggle hitbox -> h", 40, false, 1);
+	printWithFG("Aumento de velocidad -> .", 30, false, 1);
+	printWithFG("Disminucion de velocidad -> ,", 20, false, 1);
 
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

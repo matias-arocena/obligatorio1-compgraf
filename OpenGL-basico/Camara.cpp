@@ -39,7 +39,7 @@ void Camara::update()
 
 			cout << "me pego un rico tiro en sx y cz " << sx << " " << cz << endl;
 			offSet = Vector3( /*(0 * cos(objectToFollow->getRot().y) + */ ( (-10) * ( sx ) ),
-				-0.5,
+				-5,
 				/*-0 * sin(objectToFollow->getRot().y) + */ (-10) * ( cz ) );
 		
 			cout << endl << "offset X " << offSet.x << endl << "offset Z " << offSet.z << endl << "angulo " << objectToFollow->getRot().y;
