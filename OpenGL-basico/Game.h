@@ -30,7 +30,10 @@ class Game
 
 		Camara * getCamara();
 
+		GLfloat luz_posicion[4] = { -30, 15, 0, 1 };
+		GLfloat diffuseLight[4] = { 1, 1, 1, 1 };
 		bool isPaused = false;
+		bool lightChanged = false;
 		float gameVelocity = 1.0f;
 	private:
 

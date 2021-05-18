@@ -54,8 +54,6 @@ int main(int argc, char* argv[])
 	float degrees = 0;
 
 	bool rotate = false;
-	GLfloat luz_posicion[4] = { -30, 15, 0, 1 };
-	GLfloat diffuseLight[4] = { 1, 1, 1, 1 };
 	GLfloat ambientLight[4] = { 0.1, 0.1, 0.1, 0.1 };
 	//FIN INICIALIZACION
 	bool textOn = true;
@@ -84,11 +82,13 @@ int main(int argc, char* argv[])
 		
 
 		Game::inst().cam->update();
-		luz_posicion[2] = Game::inst().getCamara()->getPos().z;
+		if(!Game::inst().lightChanged)
+			Game::inst().luz_posicion[2] = Game::inst().getCamara()->getPos().z;
+		
 		//PRENDO LA LUZ (SIEMPRE DESPUES DEL gluLookAt)
 		glEnable(GL_LIGHT0); // habilita la luz 0
-		glLightfv(GL_LIGHT0, GL_POSITION, luz_posicion);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+		glLightfv(GL_LIGHT0, GL_POSITION, Game::inst().luz_posicion);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, Game::inst().diffuseLight);
 		glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 				
 		//glPushMatrix();
@@ -137,7 +137,8 @@ void Game::checkEvents()
 				_fin = true;
 				break;
 			case SDLK_PERIOD:
-				gameVelocity += 0.1f;
+				if(gameVelocity < 3)
+					gameVelocity += 0.1f;
 				break;
 			case SDLK_COMMA:
 				if(gameVelocity > 0.1f) 
@@ -146,7 +147,41 @@ void Game::checkEvents()
 			case SDLK_0:
 				gameVelocity = 1.0f;
 				break;
+			case SDLK_8:
+				lightChanged = true;
+				luz_posicion[2] += 1;
+				break;
+			case SDLK_2:
+				lightChanged = true;
+				luz_posicion[2] -= 1;
+				break;
+			case SDLK_4:
+				lightChanged = true;
+				luz_posicion[0] -= 1;
+				break;
+			case SDLK_6:
+				lightChanged = true;
+				luz_posicion[0] += 1;
+				break;
+			case SDLK_9:
+				lightChanged = true;
+				luz_posicion[1] -= 1;
+				break;
+			case SDLK_3:
+				lightChanged = true;
+				luz_posicion[1] += 1;
+				break;
+			case SDLK_r:
+				diffuseLight[0] = fmod(diffuseLight[0] + 0.1, 1);
+				break;
+			case SDLK_g:
+				diffuseLight[1] = fmod(diffuseLight[1] + 0.1, 1);
+				break;
+			case SDLK_b:
+				diffuseLight[2] = fmod(diffuseLight[2] + 0.1, 1);
+				break;
 			}
+
 			break;
 		}
 
