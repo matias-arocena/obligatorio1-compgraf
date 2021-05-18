@@ -27,7 +27,7 @@ void Player::update()
 		setRot(Vector3(0, 0, 0));
 	}
 
-	if (getPos().y <= 0 && getPos().y > -0.5f && curTileWalkable())
+	if (getPos().y <= 0 && getPos().y > -0.5f * Game::inst().gameVelocity && curTileWalkable())
 	{
 		setVel(Vector3(getVel().x, 10, getVel().z));
 		levelState->checkScore();
