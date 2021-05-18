@@ -74,13 +74,20 @@ int main(int argc, char* argv[])
 	//LOOP PRINCIPAL
 	do 
 	{
-		Game::inst().checkEvents();
 
-		Game::inst()._state->update();
-		
 		LAST = NOW;
 		NOW = SDL_GetPerformanceCounter();
 		Game::inst().deltaTime = Game::inst().gameVelocity * (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
+
+		Game::inst().checkEvents();
+
+		if (Game::inst().stateChanged)
+		{
+			Game::inst().stateChanged = false;
+			continue;
+		}
+
+		Game::inst()._state->update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		glLoadIdentity();
@@ -119,10 +126,15 @@ int main(int argc, char* argv[])
 
 void Game::setState(GameState *aGameState)
 {
-	if (_state != NULL)
+	if (_state)
+	{
+		cout << "destroy state" << endl;
 		_state->destroy();
+		delete _state;
+	}
 	_state = aGameState;
 	_state->init();
+	stateChanged = true;
 }
 
 void Game::checkEvents()

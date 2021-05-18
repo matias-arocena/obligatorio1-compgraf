@@ -6,6 +6,8 @@
 #include "Tile.h"
 #include "Skybox.h"
 
+class Player;
+
 class LevelState : public GameState
 {
 	public:
@@ -16,6 +18,8 @@ class LevelState : public GameState
 		void render();
 		void destroy();
 		Player* getPlayer();
+
+		void gameOver();
 
 	private:
 		bool showWireframe = false;
@@ -32,6 +36,6 @@ class LevelState : public GameState
 		void spawnEnemies(vector<vector<int>> enemies);
 		void showFog();
 		int score = 0;
-		int maxPlayerY = 0;
+		int maxPlayerZ = 0;
 };
 

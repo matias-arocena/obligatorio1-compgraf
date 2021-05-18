@@ -1,4 +1,5 @@
 #include "LevelState.h"
+#include "MovementTestState.h"
 
 #include "Enemy.h"
 
@@ -68,7 +69,7 @@ LevelState::LevelState()
 
 void LevelState::init()
 {
-
+	cout << "initLevelState" << endl;
 	skybox = new Skybox(10, this);
 
 	vector<vector<int>> test =
@@ -134,6 +135,7 @@ void LevelState::init()
 
 void LevelState::onEvent(SDL_Event aEvent)
 {
+	player->onEvent(aEvent);
 	switch (aEvent.type)
 	{
 		case SDL_KEYDOWN:
@@ -184,6 +186,9 @@ void LevelState::onEvent(SDL_Event aEvent)
 						}
 					}
 					break;
+
+				case SDLK_r:
+					gameOver();
 				default:
 					break;
 			}
@@ -192,7 +197,6 @@ void LevelState::onEvent(SDL_Event aEvent)
 			break;
 	}
 
-	player->onEvent(aEvent);
 }
 
 void LevelState::update()
@@ -213,20 +217,25 @@ void LevelState::update()
 	for (auto& e : entities) {
 		e->update();
 	}
+	
+	skybox->update();
 
 	player->calculateCollisions(entities);
 	player->update();
 
-	int curPlayerY = - player->getPos().z / Tile::TILE_WIDTH;
-	if (curPlayerY > maxPlayerY)
+	/*if (player != NULL)
 	{
-		score += 1;
-		maxPlayerY = curPlayerY;
+		int curPlayerZ = - player->getPos().z / Tile::TILE_WIDTH;
+		if (curPlayerZ > maxPlayerZ)
+		{
+			score += 1;
+			maxPlayerZ = curPlayerZ;
 
-		cout << score << endl;
-	}
-
-	skybox->update();
+			cout << score << endl;
+		}
+	}*/
+	
+	
 }
 
 void LevelState::render()
@@ -275,16 +284,35 @@ void LevelState::destroy()
 			if (tileMap[j][i] != NULL)
 			{
 				tileMap[j][i]->destroy();
+				delete tileMap[j][i];
+				tileMap[j][i] = NULL;
 			}
 		}
 	}
 
+	for (auto& e : entities) {
+		e->destroy();
+		delete e;
+		e = NULL;
+	}
+
 	player->destroy();
+	delete player;
+	player = NULL;
+
+	skybox->destroy();
+	delete skybox;
+	skybox = NULL;
 }
 
 Player* LevelState::getPlayer()
 {
 	return player;
+}
+
+void LevelState::gameOver()
+{
+	Game::inst().setState(new LevelState());
 }
 
 void LevelState::loadLevel(vector<vector<int>> aMap)

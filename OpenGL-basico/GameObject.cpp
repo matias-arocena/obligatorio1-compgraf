@@ -6,7 +6,7 @@
 #include "Game.h"
 #include <iostream>
 
-GameObject::~GameObject()
+void GameObject::destroy()
 {
     if (hasModel) {
         if (hasTexture) {

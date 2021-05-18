@@ -8,6 +8,7 @@
 #include <GL/glu.h>
 #include "Game.h"
 #include "Enemy.h"
+#include "LevelState.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ void Player::update()
 		setRot(Vector3(0, 0, 0));
 	}
 
-	if (getPos().y <= 0 && curTileWalkable())
+	if (getPos().y <= 0 && getPos().y > -0.5f && curTileWalkable())
 	{
 		setVel(Vector3(getVel().x, 10, getVel().z));
 	}
@@ -38,7 +39,13 @@ void Player::update()
 		}
 	}
 
+
 	GameObject::update();
+	
+	if (getPos().y <= -4)
+	{
+		levelState->gameOver();
+	}
 }
 
 void Player::render()
@@ -52,6 +59,7 @@ void Player::render()
 
 void Player::destroy()
 {
+	GameObject::destroy();
 }
 
 void Player::onEvent(SDL_Event aEvent)
@@ -135,6 +143,7 @@ void Player::onEvent(SDL_Event aEvent)
 void Player::setTileMap(vector<vector<Tile*>> aMap)
 {
 	tileMap = aMap;
+	setPos(Vector3(tileMap[0].size() * Tile::TILE_WIDTH / 2.f, 0, - Tile::TILE_WIDTH / 2.f));
 }
 
 void Player::calculateCollisions(vector<GameObject*> entities)
@@ -154,6 +163,11 @@ void Player::calculateCollisions(vector<GameObject*> entities)
 			}
 		}
 	}
+}
+
+void Player::setLevelState(LevelState* aState)
+{
+	levelState = aState;
 }
 
 void Player::updateVel()
