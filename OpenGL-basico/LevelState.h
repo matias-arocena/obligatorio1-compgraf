@@ -20,6 +20,7 @@ class LevelState : public GameState
 		Player* getPlayer();
 
 		void gameOver();
+		void checkScore();
 
 	private:
 		bool showWireframe = false;

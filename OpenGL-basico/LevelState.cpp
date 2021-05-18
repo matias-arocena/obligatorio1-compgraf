@@ -1,5 +1,4 @@
 #include "LevelState.h"
-#include "MovementTestState.h"
 
 #include "Enemy.h"
 
@@ -127,6 +126,7 @@ void LevelState::init()
 	spawnEnemies(spawn);
 
 	player = new Player();
+	player->setLevelState(this);
 	player->setTileMap(tileMap);
 
 
@@ -222,20 +222,6 @@ void LevelState::update()
 
 	player->calculateCollisions(entities);
 	player->update();
-
-	/*if (player != NULL)
-	{
-		int curPlayerZ = - player->getPos().z / Tile::TILE_WIDTH;
-		if (curPlayerZ > maxPlayerZ)
-		{
-			score += 1;
-			maxPlayerZ = curPlayerZ;
-
-			cout << score << endl;
-		}
-	}*/
-	
-	
 }
 
 void LevelState::render()
@@ -371,5 +357,18 @@ void LevelState::showFog() {
 		glFogf(GL_FOG_START, 15.f);
 		glFogf(GL_FOG_END, 20.f);
 		glFogf(GL_FOG_DENSITY, 1.f);
+	}
+}
+
+void LevelState::checkScore()
+{
+	cout << "pog" << endl;
+	int curPlayerZ = -player->getPos().z / Tile::TILE_WIDTH;
+	if (curPlayerZ > maxPlayerZ)
+	{
+		score += 1;
+		maxPlayerZ = curPlayerZ;
+
+		cout << score << endl;
 	}
 }

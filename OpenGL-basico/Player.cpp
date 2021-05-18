@@ -30,6 +30,7 @@ void Player::update()
 	if (getPos().y <= 0 && getPos().y > -0.5f && curTileWalkable())
 	{
 		setVel(Vector3(getVel().x, 10, getVel().z));
+		levelState->checkScore();
 	}
 	
 	for (auto& entity : currentCollisions) {
