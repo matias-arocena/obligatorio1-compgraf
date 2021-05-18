@@ -184,6 +184,9 @@ void LevelState::onEvent(SDL_Event aEvent)
 						}
 					}
 					break;
+				case SDLK_f:
+					flat = !flat;
+					break;
 				default:
 					break;
 			}
@@ -236,6 +239,10 @@ void LevelState::render()
 	if (showLight) {
 		glEnable(GL_LIGHTING);
 		showFog();
+		if (flat)
+			glShadeModel(GL_FLAT);
+		else
+			glShadeModel(GL_SMOOTH);
 	}
 	else {
 		glDisable(GL_FOG);

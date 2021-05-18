@@ -23,6 +23,7 @@ class LevelState : public GameState
 		bool showTexture = true;
 		bool showHitbox = false;
 		bool showLight = true;
+		bool flat = false;
 
 		Player* player;
 		Skybox* skybox;
