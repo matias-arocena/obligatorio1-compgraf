@@ -3,8 +3,11 @@
 #include <vector>
 #include "Tile.h"
 #include "SDL.h"
+#include "LevelState.h"
 
 using namespace std;
+
+class LevelState;
 
 class Player : public GameObject
 {
@@ -17,6 +20,8 @@ class Player : public GameObject
 
 		void setTileMap(vector<vector<Tile*>> aMap);
 		void calculateCollisions(vector<GameObject*> entities);
+
+		void setLevelState(LevelState* aState);
 		
 	private:
 		const float SPEED = 5;
@@ -34,5 +39,7 @@ class Player : public GameObject
 		bool curTileWalkable();
 
 		vector<GameObject*> currentCollisions;
+
+		LevelState* levelState;
 };
 

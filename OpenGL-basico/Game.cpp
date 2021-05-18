@@ -34,6 +34,9 @@ int main(int argc, char* argv[])
 
 	glutInit(&argc, argv);
 
+	SDL_SetWindowGrab(win, SDL_TRUE);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+
 	glMatrixMode(GL_PROJECTION);
 
 	float color = 0;
@@ -68,13 +71,20 @@ int main(int argc, char* argv[])
 	//LOOP PRINCIPAL
 	do 
 	{
-		Game::inst().checkEvents();
 
-		Game::inst()._state->update();
-		
 		LAST = NOW;
 		NOW = SDL_GetPerformanceCounter();
 		Game::inst().deltaTime = Game::inst().gameVelocity * (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
+
+		Game::inst().checkEvents();
+
+		if (Game::inst().stateChanged)
+		{
+			Game::inst().stateChanged = false;
+			continue;
+		}
+
+		Game::inst()._state->update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		glLoadIdentity();
@@ -115,10 +125,15 @@ int main(int argc, char* argv[])
 
 void Game::setState(GameState *aGameState)
 {
-	if (_state != NULL)
+	if (_state)
+	{
+		cout << "destroy state" << endl;
 		_state->destroy();
+		delete _state;
+	}
 	_state = aGameState;
 	_state->init();
+	stateChanged = true;
 }
 
 void Game::checkEvents()
@@ -147,7 +162,7 @@ void Game::checkEvents()
 			case SDLK_0:
 				gameVelocity = 1.0f;
 				break;
-			case SDLK_8:
+			case SDLK_1:
 				lightChanged = true;
 				luz_posicion[2] += 1;
 				break;
@@ -155,29 +170,29 @@ void Game::checkEvents()
 				lightChanged = true;
 				luz_posicion[2] -= 1;
 				break;
-			case SDLK_4:
+			case SDLK_3:
 				lightChanged = true;
 				luz_posicion[0] -= 1;
 				break;
-			case SDLK_6:
+			case SDLK_4:
 				lightChanged = true;
 				luz_posicion[0] += 1;
 				break;
-			case SDLK_9:
+			case SDLK_5:
 				lightChanged = true;
 				luz_posicion[1] -= 1;
 				break;
-			case SDLK_3:
+			case SDLK_6:
 				lightChanged = true;
 				luz_posicion[1] += 1;
 				break;
-			case SDLK_r:
+			case SDLK_7:
 				diffuseLight[0] = fmod(diffuseLight[0] + 0.1, 1);
 				break;
-			case SDLK_g:
+			case SDLK_8:
 				diffuseLight[1] = fmod(diffuseLight[1] + 0.1, 1);
 				break;
-			case SDLK_b:
+			case SDLK_9:
 				diffuseLight[2] = fmod(diffuseLight[2] + 0.1, 1);
 				break;
 			}

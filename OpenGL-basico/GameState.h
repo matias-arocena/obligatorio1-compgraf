@@ -14,5 +14,7 @@ class GameState
 		virtual void render();
 		virtual void destroy();
 		virtual void onEvent(SDL_Event aEvent);
+	protected:
+		float timeInitState = 0;
 };
 

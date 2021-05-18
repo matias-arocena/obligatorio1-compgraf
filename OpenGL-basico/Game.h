@@ -35,6 +35,7 @@ class Game
 		bool isPaused = false;
 		bool lightChanged = false;
 		float gameVelocity = 1.0f;
+		bool stateChanged = false;
 	private:
 
 		Game() 

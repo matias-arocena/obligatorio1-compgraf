@@ -52,12 +52,10 @@ class GameObject
 			rot = Vector3();
 			showHitbox = false;
 		};
-		
-		~GameObject();
 
 		virtual void update(); 
 		virtual void render();
-		virtual void destroy() {}
+		virtual void destroy();
 
 		void loadModel(const std::string& filename, bool flipNormals = false, bool showTexture = true);
 		Vector3 getRot()

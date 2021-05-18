@@ -68,7 +68,7 @@ LevelState::LevelState()
 
 void LevelState::init()
 {
-
+	cout << "initLevelState" << endl;
 	skybox = new Skybox(10, this);
 
 	vector<vector<int>> test =
@@ -126,14 +126,18 @@ void LevelState::init()
 	spawnEnemies(spawn);
 
 	player = new Player();
+	player->setLevelState(this);
 	player->setTileMap(tileMap);
 
 
 	Game::inst().cam->setObjectToFollow(player);
+
+	timeInitState = Game::inst().seconds;
 }
 
 void LevelState::onEvent(SDL_Event aEvent)
 {
+	player->onEvent(aEvent);
 	switch (aEvent.type)
 	{
 		case SDL_KEYDOWN:
@@ -187,6 +191,9 @@ void LevelState::onEvent(SDL_Event aEvent)
 				case SDLK_f:
 					flat = !flat;
 					break;
+
+				case SDLK_r:
+					gameOver();
 				default:
 					break;
 			}
@@ -195,7 +202,6 @@ void LevelState::onEvent(SDL_Event aEvent)
 			break;
 	}
 
-	player->onEvent(aEvent);
 }
 
 void LevelState::update()
@@ -216,25 +222,16 @@ void LevelState::update()
 	for (auto& e : entities) {
 		e->update();
 	}
+	
+	skybox->update();
 
 	player->calculateCollisions(entities);
 	player->update();
-
-	int curPlayerY = - player->getPos().z / Tile::TILE_WIDTH;
-	if (curPlayerY > maxPlayerY)
-	{
-		score += 1;
-		maxPlayerY = curPlayerY;
-
-		cout << score << endl;
-	}
-
-	skybox->update();
 }
 
 void LevelState::render()
 {
-	dibuHUD(score, Game::inst().seconds);
+	dibuHUD(score, Game::inst().seconds - timeInitState);
 	skybox->render();
 	if (showLight) {
 		glEnable(GL_LIGHTING);
@@ -282,16 +279,35 @@ void LevelState::destroy()
 			if (tileMap[j][i] != NULL)
 			{
 				tileMap[j][i]->destroy();
+				delete tileMap[j][i];
+				tileMap[j][i] = NULL;
 			}
 		}
 	}
 
+	for (auto& e : entities) {
+		e->destroy();
+		delete e;
+		e = NULL;
+	}
+
 	player->destroy();
+	delete player;
+	player = NULL;
+
+	skybox->destroy();
+	delete skybox;
+	skybox = NULL;
 }
 
 Player* LevelState::getPlayer()
 {
 	return player;
+}
+
+void LevelState::gameOver()
+{
+	Game::inst().setState(new LevelState());
 }
 
 void LevelState::loadLevel(vector<vector<int>> aMap)
@@ -350,5 +366,18 @@ void LevelState::showFog() {
 		glFogf(GL_FOG_START, 15.f);
 		glFogf(GL_FOG_END, 20.f);
 		glFogf(GL_FOG_DENSITY, 1.f);
+	}
+}
+
+void LevelState::checkScore()
+{
+	cout << "pog" << endl;
+	int curPlayerZ = -player->getPos().z / Tile::TILE_WIDTH;
+	if (curPlayerZ > maxPlayerZ)
+	{
+		score += 1;
+		maxPlayerZ = curPlayerZ;
+
+		cout << score << endl;
 	}
 }
