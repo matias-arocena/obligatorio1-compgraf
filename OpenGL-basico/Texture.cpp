@@ -2,6 +2,7 @@
 #include "FreeImage.h"
 
 #include <iostream>
+#include <gl/GLU.h>
 
 std::map<std::string, GLuint> Texture::cache;
 
@@ -43,7 +44,7 @@ void Texture::load()
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, image.data);
+        gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, image.width, image.height, GL_RGB, GL_UNSIGNED_BYTE, image.data);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     }
     else {

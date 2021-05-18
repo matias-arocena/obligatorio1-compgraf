@@ -7,7 +7,6 @@
 #include <GL/glu.h>
 #include "GameState.h"
 #include "LevelState.h"
-//#include "MovementTestState.h"
 #include "Game.h"
 #include "Camara.h"
 #include <GL/freeglut.h>
@@ -44,10 +43,7 @@ int main(int argc, char* argv[])
 	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_MODELVIEW);
 	
-	cout << "post create game" << endl;
 	Game::inst().setState(new LevelState());
-
-	cout << "pre begin loop";
 
 	//---------------------
 	float x, y, z;
@@ -145,7 +141,7 @@ void Game::checkEvents()
 				break;
 			case SDLK_COMMA:
 				if(gameVelocity > 0.1f) 
-					gameVelocity -= 0.2f;
+					gameVelocity -= 0.1f;
 				break;
 			case SDLK_0:
 				gameVelocity = 1.0f;
