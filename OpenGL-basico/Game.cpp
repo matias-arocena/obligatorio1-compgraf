@@ -34,6 +34,9 @@ int main(int argc, char* argv[])
 
 	glutInit(&argc, argv);
 
+	SDL_SetWindowGrab(win, SDL_TRUE);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+
 	glMatrixMode(GL_PROJECTION);
 
 	float color = 0;
