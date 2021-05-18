@@ -131,6 +131,8 @@ void LevelState::init()
 
 
 	Game::inst().cam->setObjectToFollow(player);
+
+	timeInitState = Game::inst().seconds;
 }
 
 void LevelState::onEvent(SDL_Event aEvent)
@@ -226,7 +228,7 @@ void LevelState::update()
 
 void LevelState::render()
 {
-	dibuHUD(score, Game::inst().seconds);
+	dibuHUD(score, Game::inst().seconds - timeInitState);
 	skybox->render();
 	if (showLight) {
 		glEnable(GL_LIGHTING);
