@@ -4,7 +4,7 @@
 
 std::vector<EnemyData> Enemy::enemies = {
 	EnemyData("../assets/enemy2.stl", 0.8, 0),
-	EnemyData("../assets/enemy3/70m_rev_e.3ds", 0.02, 0),
+	EnemyData("../assets/enemy1/enemy1.3ds", 0.8, 0),
 };
 
 Enemy::Enemy(int enemyId, int row, bool right, float vel, float startingX, float boundary) : boundary{ boundary } {
