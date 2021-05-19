@@ -105,7 +105,6 @@ class GameObject
 		void setCurrentCollisions(std::vector<GameObject*> collisions);
 		void scaleHitbox(Vector3 scale);
 	private:
-		Vector3 accel;
 		void initFromScene(const aiScene* scene, const std::string& filename);
 		void initMesh(unsigned int index, const aiMesh* mesh);
 		void initMaterials(const aiScene* scene, const std::string& filename);
@@ -114,7 +113,9 @@ class GameObject
 	protected:
 		Vector3 pos;
 		Vector3 vel;
+		Vector3 accel;
 		Vector3 rot;
+		Vector3 rotVel;
 		Vector3 scale;
 		HitBox* hitbox;
 		bool hasTexture, hasModel, flipNormals, showTexture, showHitbox;
