@@ -332,18 +332,25 @@ void LevelState::loadLevel(vector<vector<int>> aMap)
 void LevelState::spawnEnemies(vector<vector<int>> enemies)
 {
 	srand(time(nullptr));
-	float maxVel = 20;
+	float maxVel = 15;
 	float boundary = enemies[0].size() * 2;
 
-	for (int i = 0; i < enemies.size(); i++){
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		// speed calculation
+		float r = ((float)rand() / (RAND_MAX)) ; // random float between 0 and 1
+		float velPerLine = (maxVel / enemies.size());
+		float randomFactor = 10; //line margin of rand value i.e. for line 5, real value is between 5 * velPerLine to (5 + randomFactor) * velPerLine
+		float vel = (i + (r * randomFactor)) * velPerLine;
+
 		for (int j = 0; j < enemies[i].size(); j++)
 		{
 			if (enemies[i][j] == 1)
 			{
-				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, true, i * (maxVel / enemies.size()),  j * 2, boundary));
+				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, true, vel,  j * 2, boundary));
 			}
 			else if (enemies[i][j] == 2) {
-				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, false, i * (maxVel / enemies.size()), j * 2, boundary));
+				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, false, vel, j * 2, boundary));
 			}
 		}
 	}
