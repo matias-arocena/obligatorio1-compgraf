@@ -31,7 +31,7 @@ class Player : public GameObject
 		const int BACK = 1;
 		const int LEFT = 2;
 		const int RIGHT = 3;
-		const float ROTATESPEED = -1;
+		const float ROTATESPEED = -0.5f;
 
 		void updateVel();
 

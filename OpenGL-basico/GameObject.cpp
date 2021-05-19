@@ -22,6 +22,15 @@ void GameObject::update()
 {
     vel += accel * Game::inst().getDeltaTime();
     pos += vel * Game::inst().getDeltaTime();
+
+    doRotate(rot + rotVel * Game::inst().getDeltaTime());
+    // keep angles between 0 and 360
+    if (rot.x >= 360) rot.x = rot.x - 360;
+    if (rot.x < 0) rot.x = rot.x + 360;
+    if (rot.y >= 360) rot.y = rot.y - 360;
+    if (rot.y < 0) rot.y = rot.y + 360; 
+    if (rot.z >= 360) rot.z = rot.z - 360;
+    if (rot.z < 0) rot.z = rot.z + 360;
 }
 
 void GameObject::render()
@@ -33,7 +42,9 @@ void GameObject::render()
             drawHitbox();
 
         glScalef(scale.x, scale.y, scale.z);
+        glRotatef(rot.x, 1, 0, 0);
         glRotatef(rot.y, 0, 1, 0);
+        glRotatef(rot.z, 0, 0, 1);
 
         
         for (unsigned int i = 0; i < entries.size(); i++) {

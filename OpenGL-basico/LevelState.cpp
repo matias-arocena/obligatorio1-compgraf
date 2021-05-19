@@ -9,7 +9,7 @@
 #include "Game.h"
 #include <filesystem>
 
-void printWithFG(char* imprimible, int pos, bool size_big, int color) {
+void printWithFG(char* imprimible, int pos_hor, int pos_ver, bool size_big, int color) {
 	switch (color) {
 	case 1: //black
 		glColor4f(0.0f, 0.0f, 0.0f, 0.0f);
@@ -18,7 +18,7 @@ void printWithFG(char* imprimible, int pos, bool size_big, int color) {
 		glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
 		break;
 	}
-	glRasterPos2i(25, pos);
+	glRasterPos2i(pos_hor, pos_ver);
 	char print_string[1000];
 	sprintf_s(print_string, imprimible);
 	const unsigned char* settings = reinterpret_cast<const unsigned char*>(print_string);
@@ -42,21 +42,28 @@ void dibuHUD(int score, int seconds) {
 
 	char score_string[1000];
 	sprintf_s(score_string, "%s%d", "Puntaje: ", score);
-	printWithFG(score_string, 450, true, 2);
+	printWithFG(score_string, 25, 450, true, 2);
 
 	char time_string[1000];
 	sprintf_s(time_string, "%s%d", "Tiempo: ", seconds);
-	printWithFG(time_string, 430, true, 2);
+	printWithFG(time_string, 25, 430, true, 2);
 
-	printWithFG("Settings: ", 100, false, 1);
-	printWithFG("Pausa -> p", 90, false, 1);
-	printWithFG("Salir -> q", 80, false, 1);
-	printWithFG("Toggle wireframe -> w", 70, false, 1);
-	printWithFG("Toggle luz -> l", 60, false, 1);
-	printWithFG("Toggle textura -> t", 50, false, 1);
-	printWithFG("Toggle hitbox -> h", 40, false, 1);
-	printWithFG("Aumento de velocidad -> .", 30, false, 1);
-	printWithFG("Disminucion de velocidad -> ,", 20, false, 1);
+	printWithFG("Settings: ", 25, 150, false, 1);
+	printWithFG("Pausa -> p", 25, 140, false, 1);
+	printWithFG("Salir -> q", 25, 130, false, 1);
+	printWithFG("Toggle wireframe -> w", 25, 120, false, 1);
+	printWithFG("Toggle luz -> l", 25, 110, false, 1);
+	printWithFG("Toggle textura -> t", 25, 100, false, 1);
+	printWithFG("Toggle hitbox -> h", 25, 90, false, 1);
+	printWithFG("Toggle interpolado - facetado -> f", 25, 80, false, 1);
+	printWithFG("Aumento de velocidad -> .", 25, 70, false, 1);
+	printWithFG("Disminucion de velocidad -> ,", 25, 60, false, 1);
+	printWithFG("Movimiento de luz en x -> 1 Disminuye, 2 Aumenta", 25, 50, false, 1);
+	printWithFG("Movimiento de luz en y -> 3 Disminuye, 4 Aumenta", 25, 40, false, 1);
+	printWithFG("Movimiento de luz en z -> 5 Disminuye, 6 Aumenta", 25, 30, false, 1);
+	printWithFG("Cambio de componente rojo en luz -> 7", 25, 20, false, 1);
+	printWithFG("Cambio de componente verde en luz -> 8", 25, 10, false, 1);
+	printWithFG("Cambio de componente azul en luz -> 9", 25, 0, false, 1);
 
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
@@ -366,18 +373,25 @@ void LevelState::loadLevel(vector<vector<int>> aMap)
 void LevelState::spawnEnemies(vector<vector<int>> enemies)
 {
 	srand(time(nullptr));
-	float maxVel = 20;
+	float maxVel = 15;
 	float boundary = enemies[0].size() * 2;
 
-	for (int i = 0; i < enemies.size(); i++){
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		// speed calculation
+		float r = ((float)rand() / (RAND_MAX)) ; // random float between 0 and 1
+		float velPerLine = (maxVel / enemies.size());
+		float randomFactor = 10; //line margin of rand value i.e. for line 5, real value is between 5 * velPerLine to (5 + randomFactor) * velPerLine
+		float vel = (i + (r * randomFactor)) * velPerLine;
+
 		for (int j = 0; j < enemies[i].size(); j++)
 		{
 			if (enemies[i][j] == 1)
 			{
-				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, true, i * (maxVel / enemies.size()),  j * 2, boundary));
+				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, true, vel,  j * 2, boundary));
 			}
 			else if (enemies[i][j] == 2) {
-				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, false, i * (maxVel / enemies.size()), j * 2, boundary));
+				entities.push_back(new Enemy(rand() % Enemy::enemies.size(), i, false, vel, j * 2, boundary));
 			}
 		}
 	}

@@ -12,9 +12,13 @@ Enemy::Enemy(int enemyId, int row, bool right, float vel, float startingX, float
 	doScale(Vector3(1, 1, 1) * enemies[enemyId].scale);
 	scaleHitbox(Vector3(1, 1, 1) * 0.7f);
 	doRotate(Vector3(0, 45 * (rand() % 4), 0));
+
 	this->vel = right ? vel : -vel;
 	this->right = right;
 	pos = Vector3(startingX, enemies[enemyId].yStart-hitbox->yMin, -(row * 2 + 1));
+	
+	float maxRotSpeed = 240.0f;
+	this->rotVel = Vector3(((float)rand() / (RAND_MAX) - 0.5f) * maxRotSpeed, ((float)rand() / (RAND_MAX) -0.5f) * maxRotSpeed, 0/*((float)rand() / (RAND_MAX) -0.5f) * maxRotSpeed*/);
 }
 
 void Enemy::update() {
