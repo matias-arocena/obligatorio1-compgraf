@@ -164,27 +164,27 @@ void Game::checkEvents()
 				break;
 			case SDLK_1:
 				lightChanged = true;
-				luz_posicion[2] += 1;
+				luz_posicion[0] -= 1;
 				break;
 			case SDLK_2:
 				lightChanged = true;
-				luz_posicion[2] -= 1;
+				luz_posicion[0] += 1;
 				break;
 			case SDLK_3:
 				lightChanged = true;
-				luz_posicion[0] -= 1;
+				luz_posicion[1] -= 1;
 				break;
 			case SDLK_4:
 				lightChanged = true;
-				luz_posicion[0] += 1;
+				luz_posicion[1] += 1;
 				break;
 			case SDLK_5:
 				lightChanged = true;
-				luz_posicion[1] -= 1;
+				luz_posicion[2] -= 1;
 				break;
 			case SDLK_6:
 				lightChanged = true;
-				luz_posicion[1] += 1;
+				luz_posicion[2] += 1;
 				break;
 			case SDLK_7:
 				diffuseLight[0] = fmod(diffuseLight[0] + 0.1, 1);

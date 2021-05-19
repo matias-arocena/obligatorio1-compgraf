@@ -1,12 +1,2 @@
-﻿  Enemy.cpp
-  Camara.cpp
-  GameObject.cpp
-  Game.cpp
-  LevelState.cpp
-  GameState.cpp
-  Player.cpp
-  Skybox.cpp
-  Texture.cpp
-  Tile.cpp
-  Generating Code...
+﻿  Game.cpp
   OpenGL-basico.vcxproj -> C:\Users\Matias\Projects\obligatorio1-compgraf\x64\Debug\OpenGL-basico.exe
