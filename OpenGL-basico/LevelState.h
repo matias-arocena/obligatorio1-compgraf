@@ -29,11 +29,14 @@ class LevelState : public GameState
 		bool showHitbox = false;
 		bool showLight = true;
 		bool flat = false;
+		int level = 1;
 
 		Player* player;
 		Skybox* skybox;
 		vector<GameObject*> entities;
 		vector<vector<Tile*>> tileMap;
+		vector<vector<int>> loadLevelFile(int level);
+		vector<vector<int>> loadSpawnFile(int level);
 		void loadLevel(vector<vector<int>> aMap);
 		void spawnEnemies(vector<vector<int>> enemies);
 		void showFog();
