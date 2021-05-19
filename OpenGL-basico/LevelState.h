@@ -37,6 +37,7 @@ class LevelState : public GameState
 		vector<vector<Tile*>> tileMap;
 		vector<vector<int>> loadLevelFile(int level);
 		vector<vector<int>> loadSpawnFile(int level);
+		void newLevel(int level);
 		void loadLevel(vector<vector<int>> aMap);
 		void spawnEnemies(vector<vector<int>> enemies);
 		void showFog();

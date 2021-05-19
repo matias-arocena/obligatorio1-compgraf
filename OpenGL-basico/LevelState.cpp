@@ -7,7 +7,7 @@
 #include <GL/freeglut.h>
 #include <fstream>
 #include "Game.h"
-
+#include <filesystem>
 
 void printWithFG(char* imprimible, int pos, bool size_big, int color) {
 	switch (color) {
@@ -84,6 +84,48 @@ void LevelState::init()
 	Game::inst().cam->setObjectToFollow(player);
 
 	timeInitState = Game::inst().seconds;
+}
+
+void LevelState::newLevel(int level)
+{
+	auto dirIter = filesystem::directory_iterator("../levels");
+
+	int fileCount = std::count_if(
+		begin(dirIter),
+		end(dirIter),
+		[](auto& entry) { return entry.is_regular_file(); }
+	);
+
+	if (level > fileCount / 2)
+		return;
+
+	for (int j = 0; j < tileMap.size(); j++)
+	{
+		for (int i = 0; i < tileMap[j].size(); i++)
+		{
+			if (tileMap[j][i] != NULL)
+			{
+				tileMap[j][i]->destroy();
+				delete tileMap[j][i];
+				tileMap[j][i] = NULL;
+			}
+		}
+	}
+
+	for (auto& e : entities) {
+		e->destroy();
+		delete e;
+		e = NULL;
+	}
+	entities.clear();
+	tileMap.clear();
+	loadLevel(loadLevelFile(level));
+	spawnEnemies(loadSpawnFile(level));
+	player->setTileMap(tileMap);
+	Game::inst().stateChanged = true;
+	player->setPos(Vector3(0, 2, 0));
+	maxPlayerZ = 0;
+	this->level++;
 }
 
 void LevelState::onEvent(SDL_Event aEvent)
@@ -367,9 +409,12 @@ void LevelState::checkScore()
 	int curPlayerZ = -player->getPos().z / Tile::TILE_WIDTH;
 	if (curPlayerZ > maxPlayerZ)
 	{
-		score += 1;
+		score += curPlayerZ - maxPlayerZ;
 		maxPlayerZ = curPlayerZ;
 
 		cout << score << endl;
 	}
+	if (curPlayerZ >= tileMap.size() - 1)
+		newLevel(level + 1);
+
 }

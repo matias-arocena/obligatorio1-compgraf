@@ -4,12 +4,13 @@
 
 std::vector<EnemyData> Enemy::enemies = {
 	EnemyData("../assets/enemy2.stl", 0.8, 0),
-	EnemyData("../assets/enemy1/enemy1.3ds", 0.8, 0),
+	EnemyData("../assets/enemy1/enemy1.3ds", 0.6, 0),
 };
 
 Enemy::Enemy(int enemyId, int row, bool right, float vel, float startingX, float boundary) : boundary{ boundary } {
 	loadModel(enemies[enemyId].path);
 	doScale(Vector3(1, 1, 1) * enemies[enemyId].scale);
+	scaleHitbox(Vector3(1, 1, 1) * 0.7f);
 	doRotate(Vector3(0, 45 * (rand() % 4), 0));
 	this->vel = right ? vel : -vel;
 	this->right = right;
