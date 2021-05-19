@@ -3,7 +3,9 @@
 #include "Enemy.h"
 
 #include <iostream>
+#include <sstream>
 #include <GL/freeglut.h>
+#include <fstream>
 #include "Game.h"
 
 
@@ -71,59 +73,8 @@ void LevelState::init()
 	cout << "initLevelState" << endl;
 	skybox = new Skybox(10, this);
 
-	vector<vector<int>> test =
-	{
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},		
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	};
-
-	vector<vector<int>> spawn =
-	{
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-		{2, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 2},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0},
-		{0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0},
-		{0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 2, 0, 0, 2, 2, 0, 0, 2, 2, 2},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 2, 0, 0, 2, 0, 0, 0, 2, 2},
-		{0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0},
-		{0, 2, 2, 0, 0, 0, 2, 0, 2, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	};
-
-
-	loadLevel(test);
-	spawnEnemies(spawn);
+	loadLevel(loadLevelFile(level));
+	spawnEnemies(loadSpawnFile(level));
 
 	player = new Player();
 	player->setLevelState(this);
@@ -308,6 +259,47 @@ Player* LevelState::getPlayer()
 void LevelState::gameOver()
 {
 	Game::inst().setState(new LevelState());
+}
+
+vector<vector<int>> LevelState::loadLevelFile(int level)
+{
+	std::vector<std::vector<int>> result;
+	std::ifstream inputfile("../levels/tiles" + std::to_string(level) + ".txt");
+	for (std::string line; getline(inputfile, line); )
+	{
+		std::vector<int> row;
+		std::istringstream iss(line);
+		std::string item;
+		while (std::getline(iss, item, ' ')) {
+			row.push_back(atoi(item.c_str()));
+		}
+		result.push_back(row);
+	}
+	return result;
+}
+vector<vector<int>> LevelState::loadSpawnFile(int level)
+{
+	std::vector<std::vector<int>> result;
+	std::ifstream inputfile("../levels/spawn" + std::to_string(level) + ".txt");
+	for (std::string line; getline(inputfile, line); )
+	{
+		std::vector<int> row;
+		std::istringstream iss(line);
+		std::string item;
+		while (std::getline(iss, item, ' ')) {
+			if (item == "R") {
+				row.push_back(1);
+			}
+			else if (item == "L") {
+				row.push_back(2);
+			}
+			else {
+				row.push_back(atoi(item.c_str()));
+			}
+		}
+		result.push_back(row);
+	}
+	return result;
 }
 
 void LevelState::loadLevel(vector<vector<int>> aMap)
